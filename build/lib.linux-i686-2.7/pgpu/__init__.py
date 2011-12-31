@@ -1,0 +1,73 @@
+'''Generic iterable utilities.
+AUTHORS:
+v0.2.0+				--> pydsigner'''
+__version__ = '0.4.6'
+
+def replace_many(s, d, inverse = False):
+	'''Goes through dict @d's keys and replaces their occurences with their 
+	value. If @inverse is true, the values are replaced by the keys.
+	NOTE: Results may vary from run to run and machine to machine because of 
+	Python's dictionary optimization, especially if @inverse is true and some 
+	keys have the same value. If @inverse is true, no empty strings can be 
+	among the values, and if not, no empty string keys.
+
+	>>> replace_many('quantum_junk10', {'1': '', '0': 'o', '_': ' '})
+	'quantum junko'
+	>>> replace_many('quantum_junk10', {'a': '0', 'b': '1'}, True)
+	'quantum_junkba'
+	>>> replace_many('quantum_junk10', {'': '5'})
+	<TypeError traceback>
+
+	AUTHORS:
+	v0.2.0+				--> pydsigner'''
+	if inverse:
+		for k in d:
+			s = s.replace(d[k], k)
+	else:
+		for k in d:
+			s = s.replace(k, d[k])
+	return s
+
+def remove_many(s, l):
+	'''Goes through every item of @l and removes their occurences in @s.
+	>>> remove_many('quantum_junk10', '_0123456789')
+	'quantumjunk'
+	AUTHORS:
+	v0.2.0+				--> pydsigner'''
+	d = {}
+	for i in l:
+		d[i] = ''
+	return replace_many(s, d)
+
+def keep_many(s, l):
+	'''Goes through @s and removes all chars that are not in @l.
+	>>> keep_many('quantum_junk10', 'abcdefghijklmnopq')
+	'qanmjnk'
+	AUTHORS:
+	v0.2.0-v0.3.6.3		--> pydsigner
+	v0.3.7+				--> ffao/pydsigner'''
+	return ''.join(c for c in s if c in l)
+
+def section(itr, size):
+	'''Goes through @itr and splits it up into chunks of @size.
+	>>> section('quantum_junk10', 3)
+	['qua', 'ntu', 'm_j', 'unk', '10']
+	AUTHORS:
+	v0.3.1+				--> pydsigner'''
+	r = itr[:]
+	res = []
+	while r:
+		res.append(r[:size])
+		r = r[size:]
+	return res
+
+def find(itr, value, *args, **kw):
+	'''Just like str().find(), but also works for list()'s, which have a 
+	.index() like str()'s do but no .find().
+	AUTHORS:
+	v0.4.4+			--> pydsigner
+	'''
+	try:
+		return itr.index(value, *args, **kw)
+	except ValueError:
+		return -1

@@ -1,0 +1,13 @@
+#####################################
+##### PGPU SUGGESTION LOG ###########
+#####################################
+
+* #2 (4/19/2011 at 10:24 -3:00 by ffao in v0.3.7)
+	> I think SGP can also be implemented as [...] This avoids the indirection 
+	of doing the correction first
+	> IMPLEMENTED in v0.3.8 by ffao
+
+* #1 (4/19/2011 at 18:55 -3:00 by ffao in v0.3.6.3)
+	> [Module::pgpu.]keep_many would probably be faster with a list 
+	comprehension
+	> IMPLEMENTED in v0.3.7 by pydsigner

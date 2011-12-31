@@ -1,0 +1,115 @@
+##############################
+##### PGPU BUG LOG ###########
+##############################
+
+* #25 (4/19/2011 at 20:53 by carl in v0.3.7)
+	> I was looking at your pgpu toolset on Pypi and the link to pgpu info site 
+	is down.
+	> SOLVED in v0.3.8 by pydsigner
+
+* #24 (4/19/2011 at 12:55 -6:00 by pydsigner in v0.3.6.1)
+	> Multiplying by a non-int() value in Module::security.PD12().encode() has 
+	strange results.
+	> SOLVED in v0.3.6.2, v0.3.6.3 by pydsigner
+
+* #23 (4/19/2011 at 12:17 -6:00 by pydsigner in v0.3.6)
+	> Wrong function (pgpu.remove_all() instead of pgpu.keep_all()) used in 
+	Module::security.PD12().encode()
+	> SOLVED in v0.3.6.1 by pydsigner
+
+* #22 (4/15/2011 at 08:39 -6:00 by pydsigner)
+	> Bug in PD9().encode() causes it to return "" often. Probably *0 problem.
+	> SOLVED in v0.3.5.1 by pydsigner
+
+* #21 (4/14/2011 at 10:49 -6:00 by pydsigner)
+	> Missing "self." in security.PD6().decode()!
+	> SOLVED in v0.3.4.1 by pydsigner
+
+* #20 (4/14/2011 at 10:33 -6:00 by pydsigner)
+	> Reference to "d" in security.PD5().decode() should be "r" (Copy & 
+	Paste can be so deadly).
+	> SOLVED in v0.3.3.2 by pydsigner
+
+* #19 (4/13/2011 at 10:23 -6:00 by pydsigner)
+	> Argument to str().lstrip() in pgpu.math_utils.sane_hex() must be str(), 
+	not int().
+	> SOLVED in v0.3.3.1 by pydsigner
+
+* #18 (4/12/2011 at 19:59 -6:00 by pydsigner)
+	> Reference to "_all__" in pgpu.security should be "__all__".
+	> SOLVED in v0.3.2.1 by pydsigner
+
+* #17 (4/12/2011 at 18:19 -6:00 by pydsigner)
+	> "from pgpu.compatibility import *" imports "sys".
+	> SOLVED in v0.3.2 by pydsigner
+
+* #16 (4/07/2011 at 14:40 -6:00 by pydsigner)
+	> Need a len() in pgpu.security.PD6().encode() before getting a modulus.
+	> SOLVED in v0.3.1.4 by pydsigner
+
+* #15 (4/07/2011 at 14:34 -6:00 by pydsigner)
+	> The missing "self." has struck again in pgpu.security.PD6().encode()!
+	> SOLVED in v0.3.1.3, v0.3.1.5 by pydsigner
+
+* #14 (4/07/2011 at 11:37 -6:00 by pydsigner)
+	> Missing argument in call to pgpu.section() in pgpu.security.PD6().encode()
+	> SOLVED in v0.3.1.1 by pydsigner
+
+* #13 (4/07/2011 at 10:55 -6:00 by pydsigner)
+	> Reference to "d" in security.PD5().decode() should be "r" 
+	(Copy-Paste can be so deadly.)
+	> SOLVED in v0.3.0.2 by pydsigner
+
+* #12 (4/07/2011 at 10:43 -6:00 by pydsigner)
+	> References in pgpu.security.PD5().decode() to its "mag_num" and "max_len" 
+	properties should have been made as "self.mag_num" and "self.max_len".
+	> SOLVED in v0.3.0.1 by pydsigner
+
+* #11 (4/5/2011 at 11:54 -6:00 by pydsigner)
+	> pgpu.compatibility.Print() doesn't change printed things to strings!
+	> SOLVED in v0.2.10.4 by pydsigner
+
+* #10 (4/4/2011 at 16:50 -6:00 by pydsigner) 
+	> pgpu.math_utils.euclidean_dist() should use math.hypot().
+	> SOLVED in v0.2.10.2 by pydsigner
+
+* #9 (3/29/2011 at 22:00 -6:00 by pydsigner)
+	> Reference to "z" in security.Triplets().decode() should be "s" 
+	(Copy-Paste can be so deadly.)
+	> SOLVED in v0.2.10.1 by pydsigner
+
+* #8 (3/29/2011 at 10:35 -6:00 by pydsigner)
+	> Unexpected fail of file_utils.size_of_dir() likely caused by a directory 
+	referencing itself
+	> SOLVED in v0.2.10 by pydsigner
+
+* #7 (3/28/2011 at 16:49 -6:00 by pydsigner)
+	> decimal precision setting code in security.PD3() causes return values to
+	be at most 61, rather than 64.
+	> SOLVED in v0.2.6.2 by pydsigner
+
+* #6 (3/28/2011 at 16:35 -6:00 by pydsigner)
+	> A reference to security.PD3()'s "max_len" property should have been made 
+	as "self.max_len" at line 60
+	> SOLVED in v0.2.6.1 by pydsigner
+
+* #5 (3/28/2011 at 16:32 -6:00 by pydsigner)
+	> security.PD3() has not been added to security.encoder_classes
+	> SOLVED in v0.2.6 (rebuild) by pydsigner
+
+* #4 (3/21/2011 at 18:07 -6:00 by pydsigner)
+	> The version number in __init__.py has not been changed since 0.2.4.1, 
+	should be 0.2.5
+	> SOLVED in v0.2.5 (rebuild) by pydsigner
+
+* #3 (3/21/2011 at 18:00 -6:00 by pydsigner)
+	> The 'licence' arg for setuptools.setup is deprecated
+	> SOLVED in v0.2.5 by pydsigner
+
+* #2 (3/21/2011) at 17:34 -6:00 by pydsigner)
+	> The encoder classes in security.py don't use new-style classes
+	> SOLVED in v0.2.4.3 by pydsigner
+
+* #1 (3/21/2011 at 11:10 -6:00 by pydsigner)
+	> PD2().encode(s) returns a list instead of a string
+	> SOLVED in v0.2.4.1 by pydsigner

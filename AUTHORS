@@ -1,0 +1,16 @@
+##### MAJOR AUTHORS ##########
+
+pydsigner >> pydsigner@gmail.com (original author)
+
+##### MINOR AUTHORS ##########
+
+ffao (math_utils.sgp_with_base())
+pygame wiki >> http://pygame.org/wiki/2DVectorClass (math_utils.Vector())
+
+##### SUGGESTIONS ############
+
+ffao (keep_many())
+
+##### BUG REPORTERS ##########
+
+carl (bad url)
