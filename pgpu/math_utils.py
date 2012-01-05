@@ -8,11 +8,12 @@ v0.2.0+         --> pydsigner
 
 import string
 import math
+from fractions import Fraction as frac
 import cmath
 import operator
 import decimal
 import pgpu
-from pgpu.compatibility import Print
+from pgpu.compatibility import Print, range
 
 # should we use string.ascii_uppercase?
 DEFAULT_REP_ORDER = string.digits + string.ascii_lowercase
@@ -191,7 +192,35 @@ def factors(n):
     AUTHORS:
     v0.4.9+         --> pydsigner
     '''
-    return set((x for x in xrange(1, int(n ** .5) + 2) if not n % x)) | set([n])
+    return set((x for x in range(1, int(n ** .5) + 2) if not n % x)) | set([n])
+
+def polyroots(q, p, pol):
+    '''
+    Finds all of the roots of polynomial @pol, with the constant of highest 
+    degree @q and the constant of x**0 @p. Returns a set of all the roots.
+    
+    >>> polyroots(1, 2, 'x**3 - 2*x**2 - x + 2')
+    set([1, 2, -1])
+    
+    TODO: Add ability to find @q and @p from @pol
+    
+    AUTHORS:
+    v0.5.1+         --> pydsigner
+    '''
+    s = set((x for x in set(flatten((((frac(up, uq) for uq, up in [
+                    (-qv, -pv), (-qv, pv), (qv, -pv), (qv, pv)]) 
+                for qv in factors(abs(q))) for pv in factors(abs(p))))) 
+            if eval(pol.replace('x', 'frac("%s")' % x)) == 0))
+    
+    nset = set()
+    for n in s:
+        if n.denominator == 1:
+            nset.add(n.numerator)
+        elif frac(float(n)) == n:
+            nset.add(float(n))
+        else:
+            nset.add(n)
+    return nset
 
 class ExtendedDecimal(decimal.Decimal):
     '''

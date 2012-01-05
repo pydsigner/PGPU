@@ -23,6 +23,18 @@
   -$@'                  +WQQQQW^          )QE                 )QQQD'-4W(
 
 ================================================================================
+== 0.5.1 (5 November 2012 14:07 -0600) by pydsigner                           ==
+================================================================================
+* STANDARD RELEASE
+
+=== Modules ===
+CHANGED: math_utils.py
+    ADDED: polyroots() returns the roots of a polynomial
+    FIXED: Use of xrange destroyed compatibility, now using 
+            pgpu.compatibility.range() instead
+
+
+================================================================================
 == 0.5.0 (4 November 2012 22:01 -0600) by pydsigner                           ==
 ================================================================================
 * SERIES RELEASE
