@@ -20,7 +20,34 @@
   )WQQQC              ]QQQQQmggQQQB?`     3QQQW=            mQQQQwaawQQQQWw/    
   )QQQQr              ]QQQQQQQQQWC        3QQQW;            $WQQWQWQWQQQQQQW    
   )WQD^                "4QQQQQQ@"         3QQP'              "QWQQQD9QQW???^    
-  -$@'                  +WQQQQW^          )QE                 )QQQD'-4W(  
+  -$@'                  +WQQQQW^          )QE                 )QQQD'-4W(
+
+================================================================================
+== 0.5.0 (4 November 2012 22:01 -0600) by pydsigner                           ==
+================================================================================
+* SERIES RELEASE
+
+=== Package ===
+CHANGED: CHANGELOG
+    CHANGED: Changelog entry style!
+
+=== Modules ===
+CHANGED: coding style (Much more like PEP 8)!
+
+REMOVED: Commented out classes and functions
+
+CHANGED: math_utils.py
+    NEW: factors() returns every factor, including 1, of an integer.
+
+CHANGED: security.py
+    UPDATE: Fixed up docstring
+    REMOVAL: Hash-bang was really pointless
+
+CHANGED: file_utils.py
+    FIXED: A bit of crufty code
+
+=== Examples ===
+CHANGED: coding style (Much more like PEP 8)!
 
 ================================================================================
 == 0.4.8 (2 December 2011 17:54 -0600) by pydsigner                           ==
@@ -29,9 +56,9 @@
 
 === Modules ===
 * __init__.py
-	> Added flatten(), a utility to flatten iterators
+    > Added flatten(), a utility to flatten iterators
 * wrappers.py
-	> Added CallWrapper(), a powerful decorator generator
+    > Added CallWrapper(), a powerful decorator generator
 
 ================================================================================
 == 0.4.7 (6 October 2011 21:53 -0500) by pydsigner                            ==
@@ -40,12 +67,12 @@
 
 === Modules ===
 * security.py
-	> Added RD(), a hasher using random seeding
+    > Added RD(), a hasher using random seeding
 * math_utils.py
-	> Added pascals_triangle(), a function for calculating Pascal's triangle
-	> Added to_polar(), a function for converting vectors to polar coordinates
-	> Added to_vector(), a function for converting polar coordinates to vectors
-	> Added rotate_vector(), a function for rotating vectors
+    > Added pascals_triangle(), a function for calculating Pascal's triangle
+    > Added to_polar(), a function for converting vectors to polar coordinates
+    > Added to_vector(), a function for converting polar coordinates to vectors
+    > Added rotate_vector(), a function for rotating vectors
 
 ================================================================================
 == 0.4.6 (2 September 2011 14:17 -0500) by pydsigner                          ==
@@ -54,22 +81,22 @@
 
 === Package ===
 * README
-	> Updated text about examples to reflect additions to this version
+    > Updated text about examples to reflect additions to this version
 * CHANGES
-	> Added a more beautiful ASCII art logo
+    > Added a more beautiful ASCII art logo
 
 === Modules ===
 * dictionaries.py
-	> Modified GUIDict() and GUIDictItem() for smoother deletion interface
+    > Modified GUIDict() and GUIDictItem() for smoother deletion interface
 
 === Examples ===
 * Added test_dictionaries.py
-	> A demo/test of dictionaries.UpdatingDict()
-	> A demo/test of dictionaries.SortedDict()
+    > A demo/test of dictionaries.UpdatingDict()
+    > A demo/test of dictionaries.SortedDict()
 * Added metagui.py
-	> A full-blown demo using dictionaries.GUIDict()
-	> Demo for graphically editing OGG and MP3 tags
-	> Requires the mutagen package for tag loading
+    > A full-blown demo using dictionaries.GUIDict()
+    > Demo for graphically editing OGG and MP3 tags
+    > Requires the mutagen package for tag loading
 
 ================================================================================
 == 0.4.5 (30 August 2011 14:13 -0500) by pydsigner                            ==
@@ -78,21 +105,21 @@
 
 === Modules ===
 * __init__.py
-	> Fixed find() by changing the exception clause.
+    > Fixed find() by changing the exception clause.
 * time_widgets.py
-	> Changed the default value for the @time_format option of the 
-	DigitalClock() widget from '%I:%M:%S %p' (12 hour time) to '%H:%M:%S' (24 
-	hour time.)
+    > Changed the default value for the @time_format option of the 
+    DigitalClock() widget from '%I:%M:%S %p' (12 hour time) to '%H:%M:%S' (24 
+    hour time.)
 * math_utils.py
-	> Standardized the documentation examples
-	> Added limit(), which is a shortcut for forcing a variable (most usefully 
-	a number) into a given range
+    > Standardized the documentation examples
+    > Added limit(), which is a shortcut for forcing a variable (most usefully 
+    a number) into a given range
 * Added dictionaries.py
-	> SortedDict(), a sorted dictionary implemented using a marriage of a 
-	dict() to a list().
-	> UpdatingDict(), a dictionary that can notify when it changes.
-	> GUIDict(), a graphical implementation of a basic dictionary.
-	> GUIDictItem(), an item class for GUIDict()
+    > SortedDict(), a sorted dictionary implemented using a marriage of a 
+    dict() to a list().
+    > UpdatingDict(), a dictionary that can notify when it changes.
+    > GUIDict(), a graphical implementation of a basic dictionary.
+    > GUIDictItem(), an item class for GUIDict()
 
 ================================================================================
 == 0.4.4 (5 August 2011 11:37 -0500) by pydsigner                             ==
@@ -101,16 +128,16 @@
 
 === Modules ===
 * __init__.py
-	> Added find()
+    > Added find()
 * tk_utils.py
-	> Added TextPlus()
-	> Rewrote STextPlus() and based it on TextPlus().
-	> Added Console()
-	> Added SConsole()
+    > Added TextPlus()
+    > Rewrote STextPlus() and based it on TextPlus().
+    > Added Console()
+    > Added SConsole()
 
 === Examples ===
 * triplets_app.py
-	> Removed much of the commented-out code
+    > Removed much of the commented-out code
 
 
 ================================================================================
@@ -120,17 +147,17 @@
 
 === Package ===
 * CHANGES, CHANGES-0.2.x
-	> Fixed faulty timezone info all the way back to 0.2.0
-	> Standardized timezone info all the way back to 0.2.0
+    > Fixed faulty timezone info all the way back to 0.2.0
+    > Standardized timezone info all the way back to 0.2.0
 * AUTHORS
-	> Added more info to entries
+    > Added more info to entries
 
 === Modules ===
 * math_utils.py
-	> Added Vector(), a modified 2D vector implementation from the pygame wiki.
+    > Added Vector(), a modified 2D vector implementation from the pygame wiki.
 * tk_utils.py
-	> Changed docstrings of RadioBar() and STextPlus() somewhat
-	> Changed FontDialog().__init__() quite slightly
+    > Changed docstrings of RadioBar() and STextPlus() somewhat
+    > Changed FontDialog().__init__() quite slightly
 
 ================================================================================
 == 0.4.2 (11 June 2011 15:35 -0500) by pydsigner                              ==
@@ -140,19 +167,19 @@
 
 === Modules ===
 * __init__.py
-	> Docstrings now have actual meaning rather than just telling author info
+    > Docstrings now have actual meaning rather than just telling author info
 * wrappers.py
-	> Added examples to ValueWrapper()'s documentation
+    > Added examples to ValueWrapper()'s documentation
 * math_utils.py
-	> Revamped documentation thoroughly.
+    > Revamped documentation thoroughly.
 * file_utils.py
-	> Added documentation to exists_in_path().
-	> Added documentation to size_of_dir().
+    > Added documentation to exists_in_path().
+    > Added documentation to size_of_dir().
 * tk_utils.py
-	> Added useful documentation.
-	> Optimized ask_font() some more and allowed positional args to be passed.
+    > Added useful documentation.
+    > Optimized ask_font() some more and allowed positional args to be passed.
 * time_widgets.py
-	> Added useful documentation.
+    > Added useful documentation.
 
 ================================================================================
 == 0.4.1 (6 June 2011 20:48 -0500) by pydsigner                               ==
@@ -161,15 +188,15 @@
 
 === Modules ===
 * math_utils.py
-	> Added a custom __repr__() to ExtendedDecimal()
-	> Added a tan() to ExtendedDecimal()
-	$ ExtendedDecimal().tan() uses both ExtendedDecimal().cos() and 
-	ExtendedDecimal().sin(), which reduces both efficiency and accuracy.
-	> Added docstrings to ExtendedDecimal().radians() and .degrees()
-	> Modified each of the ExtendedDecimal() mathematical functions to return 
-	an ExtendedDecimal() instance.
-	$ Many operations on an ExtendedDecimal() instance return decimal.Decimal() 
-	objects.
+    > Added a custom __repr__() to ExtendedDecimal()
+    > Added a tan() to ExtendedDecimal()
+    $ ExtendedDecimal().tan() uses both ExtendedDecimal().cos() and 
+    ExtendedDecimal().sin(), which reduces both efficiency and accuracy.
+    > Added docstrings to ExtendedDecimal().radians() and .degrees()
+    > Modified each of the ExtendedDecimal() mathematical functions to return 
+    an ExtendedDecimal() instance.
+    $ Many operations on an ExtendedDecimal() instance return decimal.Decimal() 
+    objects.
 
 ================================================================================
 == 0.4.0 (26 May 2011 21:04 -0500) by pydsigner                               ==
@@ -178,16 +205,16 @@
 
 === Package ===
 * CHANGES
-	> Changed date-time format.
+    > Changed date-time format.
 
 === Modules ===
 * math_utils.py
-	> Added ExtendedDecimal(), which inherits from decimal.Decimal() but also 
-	incorporates some geometric aids modified from the official decimal 
-	module's documentation.
-	> Changed the import of pgpu.compatibility
+    > Added ExtendedDecimal(), which inherits from decimal.Decimal() but also 
+    incorporates some geometric aids modified from the official decimal 
+    module's documentation.
+    > Changed the import of pgpu.compatibility
 * wrappers.py
-	> Updated GiveCount()'s docstring
+    > Updated GiveCount()'s docstring
 
 ================================================================================
 == 0.3.11 (May 17, 2011 17:01 -0500) by pydsigner                             ==
@@ -196,8 +223,8 @@
 
 === Modules ===
 * wrappers.py
-	> Fixed GiveCount() indentation error
-	> Made GiveCount() more customizable; changes will not break existing code.
+    > Fixed GiveCount() indentation error
+    > Made GiveCount() more customizable; changes will not break existing code.
 
 ================================================================================
 == 0.3.10 (May 11, 2011 10:57 -0500) by pydsigner                             ==
@@ -206,11 +233,11 @@
 
 === Modules ===
 * math_utils.py
-	> Fixed sane_hex() bug causing zero values to be returned as an empty 
-	string.
+    > Fixed sane_hex() bug causing zero values to be returned as an empty 
+    string.
 * wrappers.py
-	> Updated the docstring.
-	> Added GiveCount()
+    > Updated the docstring.
+    > Added GiveCount()
 
 ================================================================================
 == 0.3.9 (May 6, 2011 09:48 -0500) by pydsigner                               ==
@@ -219,14 +246,14 @@
 
 === Package ===
 * CHANGES
-	> Added a new identifier: "$" for TODO.
+    > Added a new identifier: "$" for TODO.
 
 === Modules ===
 * ALL
-	Added descriptions from Package::setup.py to module docstrings.
+    Added descriptions from Package::setup.py to module docstrings.
 * Added wrappers.py:
-	> ValueWrapper()
-	> BumpWrapper()
+    > ValueWrapper()
+    > BumpWrapper()
 $ Should come up with better docstrings for many modules and their contents.
 
 
@@ -237,26 +264,26 @@ $ Should come up with better docstrings for many modules and their contents.
 
 === Package ===
 * CHANGES
-	> Fixed glaring date mistakes from v0.3.3.2 to v0.3.7.
-	> Tweaked style to include a release discription
-	> Sectioned off the pre-v0.3.0 releases into a separately available file to 
-	reduce size
+    > Fixed glaring date mistakes from v0.3.3.2 to v0.3.7.
+    > Tweaked style to include a release discription
+    > Sectioned off the pre-v0.3.0 releases into a separately available file to 
+    reduce size
 * setup.py
-	> Fixed faulty url arg (closes bug #25).
+    > Fixed faulty url arg (closes bug #25).
 
 === Modules ===
 * ALL
-	> Added author history data to docstrings. Note that this was not done to 
-	the tkinter2x package because that is simply imports, and adding docstrings 
-	here is not wanted.
+    > Added author history data to docstrings. Note that this was not done to 
+    the tkinter2x package because that is simply imports, and adding docstrings 
+    here is not wanted.
 * math_utils.py
-	> Added suggestion #2 (speed).
-	> Fixed an indentation problem in sgp_with_base()
+    > Added suggestion #2 (speed).
+    > Fixed an indentation problem in sgp_with_base()
 * security.py
-	> Changed PD8()'s base class to PD6() like it should be.
+    > Changed PD8()'s base class to PD6() like it should be.
 * file_utils.py
-	> Commented out containing_dir(), which seems rather worthless.
-	> Removed some OLD unfinished, commented-out code.
+    > Commented out containing_dir(), which seems rather worthless.
+    > Removed some OLD unfinished, commented-out code.
 
 ================================================================================
 == 0.3.7 (April 19, 2011 16:08 -0500) by pydsigner                            ==
@@ -274,7 +301,7 @@ $ Should come up with better docstrings for many modules and their contents.
 ================================================================================
 === Modules ===
 * security.py
-	> str()'d PD[12-14]().dash to start with (recloses bug #24).
+    > str()'d PD[12-14]().dash to start with (recloses bug #24).
 
 ================================================================================
 == 0.3.6.2 (April 19, 2011 12:55 -0500) by pydsigner                          ==
@@ -282,7 +309,7 @@ $ Should come up with better docstrings for many modules and their contents.
 
 === Modules ===
 * security.py
-	> int()'d PD12().dash before using it as a multiplier (closes bug #24).
+    > int()'d PD12().dash before using it as a multiplier (closes bug #24).
 
 ================================================================================
 == 0.3.6.1 (April 19, 2011 12:41 -0500) by pydsigner                          ==
@@ -290,13 +317,13 @@ $ Should come up with better docstrings for many modules and their contents.
 
 === Package ===
 * BUGS
-	> Added version data to bug headers.
-	> Added references to part of package (Package::, Module::, Example::).
+    > Added version data to bug headers.
+    > Added references to part of package (Package::, Module::, Example::).
 
 === Modules ===
 * security.py
-	> Fixed use of pgpu.remove_all() instead pgpu.keep_all() (closes bug #23).
-	> Fixed another potential problem revealed by the one above.
+    > Fixed use of pgpu.remove_all() instead pgpu.keep_all() (closes bug #23).
+    > Fixed another potential problem revealed by the one above.
 
 ================================================================================
 == 0.3.6 (April 19, 2011 11:31 -0500) by pydsigner                            ==
@@ -304,16 +331,16 @@ $ Should come up with better docstrings for many modules and their contents.
 
 === Package ===
 * README
-	> Made a large amount of changes.
+    > Made a large amount of changes.
 * INSTALL
-	> Rewrote this so that it isn't just PGU's with relevant names modified.
+    > Rewrote this so that it isn't just PGU's with relevant names modified.
 * setup.py
-	> Removed some commented-out code.
-	> Changed url option to lead to the PGPU website.
+    > Removed some commented-out code.
+    > Changed url option to lead to the PGPU website.
 
 === Modules ===
 * security.py
-	> Added PD[12-14](), hashers similar to PD[9-11]().
+    > Added PD[12-14](), hashers similar to PD[9-11]().
 
 
 
@@ -323,8 +350,8 @@ $ Should come up with better docstrings for many modules and their contents.
 
 === Modules ===
 * security.py
-	> Fixed severe defect in PD9() that also affected PD[10,11]() (closes bug 
-	#22).
+    > Fixed severe defect in PD9() that also affected PD[10,11]() (closes bug 
+    #22).
 
 ================================================================================
 == 0.3.5 (April 14, 2011 16:49 -0500) by pydsigner                            ==
@@ -332,12 +359,12 @@ $ Should come up with better docstrings for many modules and their contents.
 
 === Modules ===
 * security.py
-	> Modified the docstrings of PD[6-8]() to reflect the serious defect found 
-	in them.
-	> Added PD[9-11](), new hashers designed to overcome the shortcomings of 
-	PD[6-8]().
-	> Fixed some redundancy caused by making PD[7,8]() a bit different than 
-	intended.
+    > Modified the docstrings of PD[6-8]() to reflect the serious defect found 
+    in them.
+    > Added PD[9-11](), new hashers designed to overcome the shortcomings of 
+    PD[6-8]().
+    > Fixed some redundancy caused by making PD[7,8]() a bit different than 
+    intended.
 
 ================================================================================
 == 0.3.4.1 (April 14, 2011 10:48 -0500) by pydsigner                          ==
@@ -345,11 +372,11 @@ $ Should come up with better docstrings for many modules and their contents.
 
 === Package ===
 * BUGS
-	> Stopped putting 'pgpu.' before module names
+    > Stopped putting 'pgpu.' before module names
 
 === Modules ===
 * security.py
-	> Fixed missing 'self.' in PD6().encode() (closes bug #21).
+    > Fixed missing 'self.' in PD6().encode() (closes bug #21).
 
 ================================================================================
 == 0.3.4 (April 14, 2011 10:42 -0500) by pydsigner                            ==
@@ -357,11 +384,11 @@ $ Should come up with better docstrings for many modules and their contents.
 
 === Modules ===
 * security.py
-	> Changed PD6() coding style to be more extensible
-	> Added PD7() and PD8(), new hashers inheriting from PD6() that are 
-	intended for checksums.
-	> Updated some docstrings and added some more.
-	> Fixed a possible bug in PD6() that may have caused too short strings.
+    > Changed PD6() coding style to be more extensible
+    > Added PD7() and PD8(), new hashers inheriting from PD6() that are 
+    intended for checksums.
+    > Updated some docstrings and added some more.
+    > Fixed a possible bug in PD6() that may have caused too short strings.
 
 ================================================================================
 == 0.3.3.2 (April 14, 2011 09:55 -0500) by pydsigner                          ==
@@ -369,8 +396,8 @@ $ Should come up with better docstrings for many modules and their contents.
 
 === Modules ===
 * security.py
-	> Changed erroneous reference to "d" in PD5().decode() to "r" (closes bug 
-	#20).
+    > Changed erroneous reference to "d" in PD5().decode() to "r" (closes bug 
+    #20).
 
 ================================================================================
 == 0.3.3.1 (April 13, 2011 10:24 -0500) by pydsigner                          ==
@@ -378,7 +405,7 @@ $ Should come up with better docstrings for many modules and their contents.
 
 === Modules ===
 * math_utils.py
-	> Fixed faulty str().lstrip() argument in sane_hex() (closes bug #19).
+    > Fixed faulty str().lstrip() argument in sane_hex() (closes bug #19).
 
 ================================================================================
 == 0.3.3 (April 13, 2011 10:13 -0500) by pydsigner                            ==
@@ -386,10 +413,10 @@ $ Should come up with better docstrings for many modules and their contents.
 
 === Modules ===
 * math_utils.py
-	> Added sane_hex(), an int -> hex that is a bit more obvious (changes to 
-	int, returns just the vital portions).
+    > Added sane_hex(), an int -> hex that is a bit more obvious (changes to 
+    int, returns just the vital portions).
 * security.py
-	> Changed PD[3-6]() to use math_utils.sane_hex()
+    > Changed PD[3-6]() to use math_utils.sane_hex()
 
 ================================================================================
 == 0.3.2.1 (April 12, 2011 20:10 -0500) by pydsigner                          ==
@@ -397,7 +424,7 @@ $ Should come up with better docstrings for many modules and their contents.
 
 === Modules ===
 * security.py
-	> Changed reference to "_all__" to "__all__" (closes bug #18).
+    > Changed reference to "_all__" to "__all__" (closes bug #18).
 
 ================================================================================
 == 0.3.2 (April 12, 2011 18:53 -0500) by pydsigner                            ==
@@ -405,11 +432,11 @@ $ Should come up with better docstrings for many modules and their contents.
 
 === Modules ===
 * compatibility.py
-	> Added "__all__" (closes bug #17).
+    > Added "__all__" (closes bug #17).
 * security.py
-	> Changed method of creating "__all__" and "encoder_classes" to add encoder
-	classes individually
-	> Made rand_key() more powerful by adding a length argument "l".
+    > Changed method of creating "__all__" and "encoder_classes" to add encoder
+    classes individually
+    > Made rand_key() more powerful by adding a length argument "l".
 
 ================================================================================
 == 0.3.1.5 (April 7, 2011 14:47 -0500) by pydsigner                           ==
@@ -417,7 +444,7 @@ $ Should come up with better docstrings for many modules and their contents.
 
 === Modules ===
 * security.py
-	> Fixed more missing "self."s in PD6().encode() (recloses bug #15).
+    > Fixed more missing "self."s in PD6().encode() (recloses bug #15).
 
 ================================================================================
 == 0.3.1.4 (April 7, 2011 14:42 -0500) by pydsigner                           ==
@@ -425,7 +452,7 @@ $ Should come up with better docstrings for many modules and their contents.
 
 === Modules ===
 * security.py
-	> Added a missing len() to PD6().encode() (closes bug #16)
+    > Added a missing len() to PD6().encode() (closes bug #16)
 
 ================================================================================
 == 0.3.1.3 (April 7, 2011 14:37 -0500) by pydsigner                           ==
@@ -433,7 +460,7 @@ $ Should come up with better docstrings for many modules and their contents.
 
 === Modules ===
 * security.py
-	> Fixed missing "self."s in PD6().encode() (closes bug #15).
+    > Fixed missing "self."s in PD6().encode() (closes bug #15).
 
 ================================================================================
 == 0.3.1.2 (April 7, 2011 14:27 -0500) by pydsigner                           ==
@@ -441,8 +468,8 @@ $ Should come up with better docstrings for many modules and their contents.
 
 === Modules ===
 * security.py
-	> Added some timesaving measures to PD6().encode() to make it usable at all
-	for checksums
+    > Added some timesaving measures to PD6().encode() to make it usable at all
+    for checksums
 
 ================================================================================
 == 0.3.1.1 (April 7, 2011 11:41 -0500) by pydsigner                           ==
@@ -450,8 +477,8 @@ $ Should come up with better docstrings for many modules and their contents.
 
 === Modules ===
 * security.py
-	> Fixed missing argument in call to pgpu.section() in PD6().encode() 
-	(closes bug #14)
+    > Fixed missing argument in call to pgpu.section() in PD6().encode() 
+    (closes bug #14)
 
 ================================================================================
 == 0.3.1 (April 7, 2011 11:26 -0500) by pydsigner                             ==
@@ -459,12 +486,12 @@ $ Should come up with better docstrings for many modules and their contents.
 
 === Modules ===
 * __init__.py
-	> Added section(), a utility function for splitting up a string (or list or 
-	tuple) in sections of a certain size
+    > Added section(), a utility function for splitting up a string (or list or 
+    tuple) in sections of a certain size
 * security.py
-	> Added docstring to PD5(), reflecting the results of testing it.
-	> Added PD6(), a new hasher similar to PD5(), but with the ability to 
-	give results of the desired length (128).
+    > Added docstring to PD5(), reflecting the results of testing it.
+    > Added PD6(), a new hasher similar to PD5(), but with the ability to 
+    give results of the desired length (128).
 
 ================================================================================
 == 0.3.0.2 (April 7, 2011 10:59 -0500) by pydsigner                           ==
@@ -472,8 +499,8 @@ $ Should come up with better docstrings for many modules and their contents.
 
 === Modules ===
 * security.py
-	> Fixed faulty reference to "d" in PD5().encode() by changing it to "r" 
-	(closes bug #13).
+    > Fixed faulty reference to "d" in PD5().encode() by changing it to "r" 
+    (closes bug #13).
 
 ================================================================================
 == 0.3.0.1 (April 7, 2011 10:46 -0500) by pydsigner                           ==
@@ -481,7 +508,7 @@ $ Should come up with better docstrings for many modules and their contents.
 
 === Modules ===
 * security.py
-	> Fixed references to "mag_num" and "max_len" in PD5() (closes bug #12).
+    > Fixed references to "mag_num" and "max_len" in PD5() (closes bug #12).
 
 ================================================================================
 == 0.3.0 (April 6, 2011 20:47 -0500) by pydsigner                             ==
@@ -489,9 +516,9 @@ $ Should come up with better docstrings for many modules and their contents.
 
 === Modules ===
 * security.py
-	> Assigned decimal.Decimal to dec for easier use.
-	> Removed PD1()!
-	> Changed the docstrings of PD[2-4]() to reflect new knowledge about these
-	encoders
-	> Added PD5(), a new hasher that is designed to overcome some of the 
-	shortfalls of PD3() and PD4().
+    > Assigned decimal.Decimal to dec for easier use.
+    > Removed PD1()!
+    > Changed the docstrings of PD[2-4]() to reflect new knowledge about these
+    encoders
+    > Added PD5(), a new hasher that is designed to overcome some of the 
+    shortfalls of PD3() and PD4().
