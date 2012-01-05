@@ -186,12 +186,12 @@ def rotate_vector(vec, degrees):
 
 def factors(n):
     '''
-    Returns an set of every factor of @n (including 1).
+    Returns an set of every factor of @n (including 1 and @n).
     
     AUTHORS:
     v0.4.9+         --> pydsigner
     '''
-    return set((x for x in xrange(1, int(n ** .5) + 2) if not n % x))
+    return set((x for x in xrange(1, int(n ** .5) + 2) if not n % x)) | set([n])
 
 class ExtendedDecimal(decimal.Decimal):
     '''
