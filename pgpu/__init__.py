@@ -4,7 +4,7 @@ Generic iterable utilities.
 AUTHORS:
 v0.2.0+             --> pydsigner
 '''
-__version__ = '0.5.0'
+__version__ = '0.5.2'
 
 def replace_many(s, d, inverse = False):
     '''
