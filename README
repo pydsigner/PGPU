@@ -5,7 +5,7 @@ A collection of handy Python utilities created by Daniel Foerster (a.k.a.
 pydsigner)
 
 pydsigner@gmail.com
-http://google.sites.com/dsignersoftware/pgpu
+http://github.com/pydsigner/PGPU
 
 
 PGPU is distributed under the GPLv2 (or greater), see COPYING for details.
@@ -39,23 +39,23 @@ reports, bug fixes, better code, or new code altogether, please follow these
 steps:
 
 1) Make sure that you have the latest version. The latest version is not always 
-	directly available, so ask me for it if there is not already one available 
-	to you.
+    directly available, so ask me for it if there is not already one available 
+    to you.
 
 2) Send the entire thing to me via email.
 
 3) If I like it, I will integrate it into PGPU, add you to the AUTHORS file, 
-	and notify you. If not, don't give up. I will give you a reason: maybe 
-	I didn't think it fit in, contained errors, or other such things. Many of 
-	these can be fixed. For example, at least at this point, I want to avoid 
-	large amounts of external dependencies, so I would likely turn down a 
-	pygame utility module, but accept a similar module for tkinter.
+    and notify you. If not, don't give up. I will give you a reason: maybe 
+    I didn't think it fit in, contained errors, or other such things. Many of 
+    these can be fixed. For example, at least at this point, I want to avoid 
+    large amounts of external dependencies, so I would likely turn down a 
+    pygame utility module, but accept a similar module for tkinter.
 
 --------------------------------------------------------------------------------
 
 Thanks to:
 * Mark Lutz, for inspiring the tk_utils.STextPlus() widget
 * The www.python-forum.com community, for helping me learn the RIGHT way to 
-	code in Python
+    code in Python
 * The PGU packagers, for a package I could base mine off of
 * The FIFE packagers, for a package clearing up some of my questions
