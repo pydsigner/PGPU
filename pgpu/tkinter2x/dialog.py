@@ -1,4 +1,5 @@
 try:
-	from Dialog import *
+    from Dialog import *
 except ImportError:
-	from tkinter.dialog import *
+    from tkinter.dialog import *
+

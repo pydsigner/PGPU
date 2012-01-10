@@ -1,4 +1,4 @@
 try:
-	from Tix import *
+    from Tix import *
 except ImportError:
-	from tkinter.tix import *
+    from tkinter.tix import *

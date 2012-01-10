@@ -1,4 +1,5 @@
 try:
-	from Canvas import *
+    from Canvas import *
 except ImportError:
-	from tkinter.canvas import *
+    from tkinter.canvas import *
+

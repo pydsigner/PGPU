@@ -1,4 +1,5 @@
 try:
-	from Tkconstants import *
+    from Tkconstants import *
 except ImportError:
-	from tkinter.constants import *
+    from tkinter.constants import *
+

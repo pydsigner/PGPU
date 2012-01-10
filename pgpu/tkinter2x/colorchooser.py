@@ -1,4 +1,5 @@
 try:
-	from tkColorChooser import *
+    from tkColorChooser import *
 except ImportError:
-	from tkinter.colorchooser import *
+    from tkinter.colorchooser import *
+

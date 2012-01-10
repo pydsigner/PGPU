@@ -1,4 +1,5 @@
 try:
-	from tkSimpleDialog import *
+    from tkSimpleDialog import *
 except ImportError:
-	from tkinter.simpledialog import *
+    from tkinter.simpledialog import *
+

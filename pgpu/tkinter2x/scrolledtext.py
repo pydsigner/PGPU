@@ -1,4 +1,4 @@
 try:
-	from ScrolledText import *
+    from ScrolledText import *
 except ImportError:
-	from tkinter.scrolledtext import *
+    from tkinter.scrolledtext import *

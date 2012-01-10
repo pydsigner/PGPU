@@ -1,4 +1,4 @@
 try:
-	from tkFont import *
+    from tkFont import *
 except ImportError:
-	from tkinter.font import *
+    from tkinter.font import *

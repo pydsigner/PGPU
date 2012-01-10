@@ -1,4 +1,4 @@
 try:
-	from Tkinter import *
+    from Tkinter import *
 except ImportError:
-	from tkinter import *
+    from tkinter import *
