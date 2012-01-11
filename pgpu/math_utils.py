@@ -593,7 +593,7 @@ class Vector(object):
         return float(self.x*other[0] + self.y*other[1])
 
     def get_distance(self, other):
-        return math.sqrt((self.x - other[0])**2 + (self.y - other[1])**2)
+        return euclidean_dist(self, other)
 
     def get_dist_sqrd(self, other):
         return (self.x - other[0])**2 + (self.y - other[1])**2
