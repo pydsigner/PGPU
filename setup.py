@@ -39,7 +39,7 @@ tkinter2x       --  2.x and 3.x compatibility layer for tkinter
         'author': "Daniel Foerster/pydsigner",
         'author_email': "pydsigner@gmail.com",
         'packages': ['pgpu','pgpu.tkinter2x'],
-        'license': 'GPLv2',
+        'license': 'LGPLv3',
         'url': "http://github.com/pydsigner/PGPU",
         'classifiers': [
             'Development Status :: 4 - Beta',

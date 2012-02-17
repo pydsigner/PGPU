@@ -341,17 +341,21 @@ class Vector(object):
     v0.4.3+         --> Pygame Wiki/pydsigner
     '''
     __slots__ = ['x', 'y']
-
-    def __init__(self, x_or_pair, y = None):
+    def __init__(self, x_or_pair = None, y = None):
         if y == None:
-            self.x = x_or_pair[0]
-            self.y = x_or_pair[1]
+            if x_or_pair == None:
+                self.x = self.y = 0
+            else:
+                self.x = x_or_pair[0]
+                self.y = x_or_pair[1]
         else:
             self.x = x_or_pair
             self.y = y
 
     def __len__(self):
         return 2
+    def __iter__(self):
+        return iter((self.x, self.y))
 
     def __getitem__(self, key):
         if key == 0:
