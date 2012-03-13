@@ -1,6 +1,6 @@
 To install (as root):
 
-$ python setup.py install
+$ python setup.py
 
 If you are using Ubuntu you may need to install python*-dev.
 

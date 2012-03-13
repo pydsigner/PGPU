@@ -137,7 +137,6 @@ class SConsole(stext.ScrolledText, Console):
     AUTHORS:
     v0.4.4+         --> pydsigner
     '''
-    pass
 
 class RadioBar(tk.Frame):
     '''
