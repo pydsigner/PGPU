@@ -17,12 +17,17 @@ To see some examples:
 $ cd examples
 $ python triplets_app.py
 
-This example is a interesting demo that uses tk_utils, security, and tkinter2x
+This example is a interesting demo that uses tk_utils, security, and tkinter2x.
 
 $ python test_dictionaries.py
 
 This example is a demo/test of dictionaries.UpdatingDict() and 
-dictionaries.SortedDict()
+dictionaries.SortedDict().
+
+$ python test_lib.py
+
+This example is a demo/test of math_utils, iter_utils, file_utils, and 
+security. Can easily and most likely will be extended in the future.
 
 $ python metagui.py
 

@@ -3,9 +3,11 @@ from pgpu.tkinter2x.constants import *
 import pgpu.tkinter2x as tk
 from pgpu.security import fetcher, encoder_classes
 
+
 def get_encoder():
     c = encoder_var.get()
     return fetcher(c)
+
 
 def set_buttons(t = 100):
     #print dir(get_encoder())
@@ -13,10 +15,14 @@ def set_buttons(t = 100):
     d_btn['state'] = (NORMAL if 'decode' in dir(get_encoder()) else DISABLED)
     win.after(t, set_buttons, t)
 
+
 def do_decode():
     out_text.settext(get_encoder().decode(in_text.gettext()))
+
+
 def do_encode():
     out_text.settext(get_encoder().encode(in_text.gettext()))
+
 
 font = ('Helvetica', 13, 'normal')
 
@@ -29,7 +35,6 @@ sidebar = tk.Frame(win)
 all_secure = list(encoder_classes)
 all_secure.sort()
 
-#radiobox = tk_utils.RadioBar(sidebar, all_secure[-1], all_secure, side = TOP)
 encoder_var = tk.StringVar()
 tk.OptionMenu(sidebar, encoder_var, all_secure[0], *all_secure[1:]
             ).pack(side = TOP, fill = X, expand = True, anchor = N, pady = 10)

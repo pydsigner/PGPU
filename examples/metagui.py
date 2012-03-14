@@ -5,8 +5,6 @@ from pgpu.dictionaries import GUIDict, UpdatingDict
 
 import os
 
-from pgpu.compatibility import *
-
 import mutagen
 import mutagen.mp3, mutagen.oggvorbis
 
@@ -16,22 +14,27 @@ class MutagenGUI(tk.Frame):
     ignore = ['coverart', 'coverartmime']
     def __init__(self, master, *args, **kw):
         tk.Frame.__init__(self, master, *args, **kw)
+        
         bpack = tk.Frame(self)
-        tk.Button(bpack, text = 'Save changes', command = self.dump_changes).pack(side = RIGHT, expand = True, fill = X)
-        tk.Button(bpack, text = 'Open new', command = self.load_new).pack(side = LEFT, expand = True, fill = X)
+        tk.Button(bpack, text = 'Save changes', command = self.dump_changes
+                ).pack(side = RIGHT, expand = True, fill = X)
+        tk.Button(bpack, text = 'Open new', command = self.load_new
+                ).pack(side = LEFT, expand = True, fill = X)
         self.title_label = tk.Label(bpack)
         self.title_label.pack(side = BOTTOM, expand = True, fill = X)
-        #tk.Button(bpack, text = 'Quit', command = self._root().destroy).pack(side = TOP)
         bpack.pack(side = BOTTOM, expand = True, fill = X)
         
         ret = self.load_new()
         if not ret:
             self._root().destroy()
+    
     def load_new(self):
-        fl = askopenfilename(filetypes = [(k, '*.%s' % k) for k in MTYPES]+[('Any', '*.*')], title = 'Choose music')
+        fl = askopenfilename(filetypes = [(k, '*.%s' % k) for k in MTYPES] + 
+                [('Any', '*.*')], title = 'Choose music')
         
         if not fl:
             return
+        
         self.title_label['text'] = os.path.split(fl)[1]
         
         self.opened = MTYPES.get(fl.split('.')[-1])(fl)
@@ -53,6 +56,7 @@ class MutagenGUI(tk.Frame):
             if k not in list(self.d) + self.ignore:
                 del self.opened[k]
         self.opened.save()
+
 
 def main():
     win = tk.Tk()

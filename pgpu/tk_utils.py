@@ -5,11 +5,10 @@ AUTHORS:
 v0.2.0+         --> pydsigner
 '''
 
-from pgpu.tkinter2x.font import families
-import pgpu.tkinter2x as tk
-from pgpu.tkinter2x.constants import *
-import pgpu.tkinter2x.scrolledtext as stext
-
+from tkinter2x.font import families
+import tkinter2x as tk
+from tkinter2x.constants import *
+import tkinter2x.scrolledtext as stext
 
 OLDSTYLE_FONTS = ['ShadowedBlack', 'Benighted', 'Old English Text']
 FLOWING_FONTS = ['Palace Script MT', 'Bradley Hand ITC', 'French Script',
@@ -34,6 +33,7 @@ def best_font(master, fonts = []):
         if font in sysfonts:
             return font
 
+
 class TextPlus(tk.Text):
     '''
     A version of Text() with additional methods for getting, setting, and 
@@ -49,8 +49,10 @@ class TextPlus(tk.Text):
     def settext(self, text):
         self.clear()
         self.insert('1.0', text)
+    
     def clear(self):
         self.delete('1.0',END)
+
 
 class STextPlus(stext.ScrolledText, TextPlus):
     '''
@@ -81,11 +83,22 @@ class Console(TextPlus):
         refresh(), otherwise it returns False.
         '''
         return self._oldcache == self.gettext()
+    
     def refresh():
         '''
         Refresh the cache (equivalent to closing and opening a file).
         '''
         self._cache = self._oldcache = self.gettext()
+    
+    def peek(size = -1):
+        '''
+        Same as read, but does not affect the cache.
+        '''
+        val = self.read(size)
+        self._cache = val + self._cache
+        return val
+    
+    ### Standard file read methods
     
     def read(size = -1):
         if size < 0:
@@ -94,13 +107,7 @@ class Console(TextPlus):
         res = self._cache[:sz]
         self._cache = self._cache[sz:]
         return res
-    def peek(size = -1):
-        '''
-        Same as read, but does not affect the cache.
-        '''
-        val = self.read(size)
-        self._cache = val + self._cache
-        return val
+    
     def readline(size = -1):
         maxdata = self.peek(size)
         pos = maxdata.find('\n')
@@ -108,6 +115,7 @@ class Console(TextPlus):
             return self.read(pos + 1)
         else:
             return self.read(size)
+    
     def readlines(size = -1):
         '''
         Uses .readline() to get lines; if size is positive, the total data 
@@ -124,12 +132,16 @@ class Console(TextPlus):
             if size > 0 and dsize >= size:
                 return res
     
+    ### Standard file write methods
+    
     def write(self, data):
         self.insert(END + '-1c', data)
+    
     def writelines(self, seq):
         [self.write(line) for line in seq]
     xwritelines = writelines
-        
+
+
 class SConsole(stext.ScrolledText, Console):
     '''
     A simple subclass of Console() with scrolling.
@@ -137,6 +149,7 @@ class SConsole(stext.ScrolledText, Console):
     AUTHORS:
     v0.4.4+         --> pydsigner
     '''
+
 
 class RadioBar(tk.Frame):
     '''
@@ -146,10 +159,13 @@ class RadioBar(tk.Frame):
     AUTHORS:
     v0.2.0+         --> pydsigner/Mark Lutz
     '''
-    def __init__(self, parent=None, default=None, picks=[], side=LEFT, anchor=W):
-        '''Pass the desired master to @parent. If @default is not None, the 
-        radio bar will initialized to it. @side and @anchor will be passed to 
-        the packer for each RadioButton() created with a value from @picks.'''
+    def __init__(self, parent=None, default=None, picks=[], side=LEFT, 
+            anchor=W):
+        '''
+        Pass the desired master to @parent. If @default is not None, the radio 
+        bar will initialized to it. @side and @anchor will be passed to the 
+        packer for each RadioButton() created with a value from @picks.
+        '''
         tk.Frame.__init__(self, parent)
         self.var = tk.StringVar()
         for pick in picks:
@@ -157,6 +173,7 @@ class RadioBar(tk.Frame):
             rad.pack(side=side, anchor=anchor, expand=YES)
         if default != None:
             self.var.set(default)
+    
     def state(self):
         return self.var.get()
 
@@ -174,14 +191,19 @@ class FontDialog(tk.Toplevel):
         Toplevel() providing the window the font picker is displayed in.
         '''
         tk.Toplevel.__init__(self, **kw)
+        
         self.title('Choose Font')
         self.protocol('WM_DELETE_WINDOW', self.cancel)
-        self.preview = tk.Label(self, font = ('courier', 15, 'bold'), text = 'Font')
+        
+        self.preview = tk.Label(self, font = ('courier', 15, 'bold'), 
+                text = 'Font')
         self.preview.pack(side = TOP)
         buttonbar = tk.Frame(self)
         tk.Button(buttonbar, text = 'Ok', command = self.ok).pack(side = LEFT)
-        tk.Button(buttonbar, text = 'Cancel', command = self.cancel).pack(side = RIGHT)
+        tk.Button(buttonbar, text = 'Cancel', command = self.cancel
+                ).pack(side = RIGHT)
         buttonbar.pack(side = BOTTOM)
+        
         self.font = tk.StringVar()
         self.bold = tk.IntVar()
         if 'bold' in defaults[2]:
@@ -193,7 +215,10 @@ class FontDialog(tk.Toplevel):
         mleft = tk.Frame(modbar)
         self.size = tk.IntVar()
         self.size.set(defaults[1])
-        tk.OptionMenu(mleft, self.size, 7, 8, 9, 10, 11, 12, 13, 14, 16, 18, 20, 22, 24).pack(side = TOP)
+        
+        tk.OptionMenu(mleft, self.size, 
+                7, 8, 9, 10, 11, 12, 13, 14, 16, 18, 20, 22, 24
+                ).pack(side = TOP)
         tk.Checkbutton(mleft, variable = self.bold).pack(side = TOP)
         tk.Checkbutton(mleft, variable = self.italic).pack(side = TOP)
         mleft.pack(side = LEFT)
@@ -218,7 +243,8 @@ class FontDialog(tk.Toplevel):
         self.after(100, self.update)
     
     def getfont(self):
-        modifiers = str('bold ' if self.bold.get() else '' + 'italic' if self.italic.get() else '').rstrip()
+        modifiers = ('bold ' if self.bold.get() else '' + 
+                'italic' if self.italic.get() else '').rstrip()
         if not modifiers:
             modifiers = 'normal'
         return (self.font.get(), self.size.get(), modifiers)

@@ -28,6 +28,7 @@ class ValueWrapper(object):
     def __call__(self):
         return self.value
 
+
 class BumpWrapper(object):
     '''
     Similar to ValueWrapper(), but increments the value every time it is 
@@ -48,12 +49,14 @@ class BumpWrapper(object):
         self.original_value = self.value = value
         self.inc = inc
         self.first = True
+    
     def __call__(self):
         if self.first:
             self.first = False
         else:
             self.value += self.inc
         return self.value
+
 
 class GiveCount(object):
     '''
@@ -92,6 +95,7 @@ class GiveCount(object):
         self(obj, 0)
         return self.d[obj]
 
+
 class CallWrapper(object):
     '''
     CallWrapper() is a decorator generator for decorators that wrap calls to 
@@ -111,7 +115,7 @@ class CallWrapper(object):
         self.__doc__ = funcs[0].__doc__# + '\n\n*Wrapped with CallWrapper!*'
     
     def __repr__(self):
-        return 'CallWrapper([%s])' % ', '.join(self.funcs)
+        return 'CallWrapper([%s])' % ', '.join(repr(r) for r in self.funcs)
     
     def __call__(self, *args, **kw):
         res = self.funcs[0](*args, **kw)

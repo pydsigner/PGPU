@@ -5,11 +5,16 @@ AUTHORS:
 v0.4.5      --> pydsigner
 '''
 
-from pgpu.compatibility import range
+from compatibility import range
 
-import pgpu.tkinter2x as tk
-from pgpu.tkinter2x.constants import *
-from pgpu.tkinter2x.simpledialog import askstring
+try:
+    import tkinter2x as tk
+    from tkinter2x.constants import *
+    from tkinter2x.simpledialog import askstring
+except ImportError:
+    # No tkinter, don't use the GUIDict!
+    pass
+
 
 class SortedDict(object):
     '''
@@ -48,14 +53,22 @@ class SortedDict(object):
                 self._add(key, value)
     
     def __delitem__(self, key):
-        'Delete item @key from the dictionary.'
+        '''
+        Delete item @key from the dictionary.
+        '''
         del self.keydict[key]
     def __iter__(self):
-        'Returns an iterator over the dictionary\'s keys.'
+        '''
+        Returns an iterator over the dictionary\'s keys.
+        '''
         return iter(self.keys())
+    
+    def _content_rep(self):
+        return ', '.join(repr(pair) for pair in self.items())
     def __str__(self):
-        prs = [str(pair) for pair in self.items()]
-        return 'SortedDict(%s)' % ', '.join(prs)
+        return '{}' % self._content_rep()
+    def __repr__(self):
+        return 'SortedDict(%s)' % self._content_rep()
     
     def get(self, key, *arg):
         '''
@@ -105,8 +118,7 @@ class SortedDict(object):
         del self.keydict[the_pair[0]]
     
     def keys(self):
-        kys = self.keydict.keys()
-        return sorted(kys, key = self._sorter)
+        return sorted(self.keydict.keys(), key = self._sorter)
     def values(self):
         return [self.data[self.keydict[k]] for k in self.keys()]
     def items(self):
@@ -125,9 +137,11 @@ class SortedDict(object):
     
     def _sorter(self, key):
         return self.keydict.get(key)
+    
     def _add(self, key, value):
         self.keydict[key] = len(self.keydict)
         self.data.append(value)
+
 
 class UpdatingDict(dict):
     '''
@@ -143,24 +157,29 @@ class UpdatingDict(dict):
     def __delitem__(self, key):
         dict.__delitem__(self, key)
         [obj.update() for obj in self.n]
+    
     def set(self, key, value):
         dict.__setitem__(self, key, value)
         [obj.update() for obj in self.n]
     __setitem__ = set
     
     def add_notify(self, obj):
-        'Add @obj to the notification list. '
+        '''
+        Add @obj to the notification list.
+        '''
         if obj not in self.n:
             self.n.append(obj)
+    
     def del_notify(self, obj):
         '''
         Remove @obj from the notification list. Will raise AssertionError if 
         @obj is not in the notification list.
         '''
-        assert obj in self.n, ('Cannot remove objects from notification list' + 
-                                ' that are not in it!')
+        assert obj in self.n, (
+                'Cannot remove objects from notification list' + 
+                ' that are not in it!')
         del self.n[self.n.index(obj)]
-        
+
 
 class GUIDictItem(tk.Frame):
     '''
@@ -189,6 +208,7 @@ class GUIDictItem(tk.Frame):
     def deleter(self):
         self.master.delete_key(self.key)
 
+
 class GUIDict(tk.Frame):
     '''
     A basic GUI implementation of a dictionary.
@@ -200,7 +220,6 @@ class GUIDict(tk.Frame):
     def __init__(self, master, dictobj = UpdatingDict(), *args, **kw):
         tk.Frame.__init__(self, master, *args, **kw)
         bbox = tk.Frame(self)
-        #tk.Button(bbox, text = 'Delete keys', command = self.deleter).pack(side = LEFT, expand = True, fill = X)
         tk.Button(bbox, text = 'Add key', command = self.adder).pack(side = RIGHT, expand = True, fill = X)
         bbox.pack(side = BOTTOM, expand = True, fill = X)
         self.dictobj = dictobj

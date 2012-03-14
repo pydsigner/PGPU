@@ -12,11 +12,13 @@ from fractions import Fraction as frac
 import cmath
 import operator
 import decimal
-import pgpu
-from pgpu.compatibility import Print, range
+
+import iter_utils
+from compatibility import range
 
 # should we use string.ascii_uppercase?
 DEFAULT_REP_ORDER = string.digits + string.ascii_lowercase
+
 
 def convert_to_base(b10int, base):
     '''
@@ -32,9 +34,10 @@ def convert_to_base(b10int, base):
     AUTHORS:
     v0.2.0+         --> pydsigner
     '''
-
-    uint = int(b10int)      # We aren't going to try to convert floats. (Todo?)
-    ubase = abs(int(base))      # We certainly aren't going to use float bases!
+    # We aren't going to try to convert floats. (Todo or fail?)
+    uint = int(b10int)
+    # We certainly aren't going to use float bases! (Fail?)
+    ubase = abs(int(base))  
     res = ''
     sign = ''
     if uint < 0:
@@ -48,6 +51,7 @@ def convert_to_base(b10int, base):
         if uint == 0:
             break
     return sign + res
+
 
 def sgp_with_base(b10int, base):
     '''
@@ -66,7 +70,8 @@ def sgp_with_base(b10int, base):
     v0.2.0-v0.3.7   --> pydsigner
     v0.3.8+         --> ffao
     '''
-    return int(math.log(b10int, base))+1
+    return int(math.log(b10int, base)) + 1
+
 
 def legs(hyp, ratio = (1, 1)):
     '''
@@ -84,6 +89,7 @@ def legs(hyp, ratio = (1, 1)):
     l1 = l2 * r
     return l1, l2
 
+
 def euclidean_dist(c1, c2):
     '''
     Returns the Euclidean distance between coordinate @c1 and @c2.
@@ -94,6 +100,7 @@ def euclidean_dist(c1, c2):
     AUTHORS:
     v0.2.0+         --> pydsigner'''
     return math.hypot(c1[0] - c2[0], c1[1] - c2[1])
+
 
 def sane_hex(v):
     '''
@@ -107,8 +114,9 @@ def sane_hex(v):
     i = int(v)
     sign = '-' if i < 0 else ''
     i = abs(i)
-    h = pgpu.keep_many(hex(i), string.hexdigits).lstrip('0') or '0'
+    h = iter_utils.keep_many(hex(i), string.hexdigits).lstrip('0') or '0'
     return sign + h
+
 
 def limit(val, bottom = None, top = None):
     '''Will return a copy of @val in such a way that:
@@ -137,6 +145,7 @@ def limit(val, bottom = None, top = None):
         uval = min(uval, top)
     return uval
 
+
 def pascals_triangle(depth):
     '''
     Calculate Pascal's triangle to @depth places. returns a list of lists.
@@ -151,9 +160,10 @@ def pascals_triangle(depth):
     for i in range(depth):
         row = [1]
         for c in range(1, i + 1):
-            row.append(sum(res[-1][c-1:c+1]))
+            row.append(sum(res[-1][c - 1:c + 1]))
         res.append(row)
     return res
+
 
 def to_polar(vec):
     '''
@@ -165,9 +175,10 @@ def to_polar(vec):
     '''
     return cmath.polar(complex(vec[0], vec[1]))
 
+
 def to_vector(polar):
     '''
-    Returns polar coordinate tuple @polar as a rectangular vector.
+    Returns polar coordinate tuple @polar as a Vector().
     
     AUTHORS:
     v0.4.7+         --> pydsigner
@@ -175,15 +186,18 @@ def to_vector(polar):
     i = cmath.rect(*polar)
     return Vector(i.real, i.imag)
 
+
 def rotate_vector(vec, degrees):
     '''
-    Rotates rectangular vector @vec @degrees degrees.
+    Rotates rectangular vector @vec @degrees.
+    NOTE: Use Vector().rotated() instead, which this simply wraps!
     
     AUTHORS:
     v0.4.7+         --> pydsigner
+    v1.0.0+         --> pydsigner
     '''
-    polar = to_polar(vec)
-    return to_vector((polar[0], polar[1] + degrees))
+    return Vector(vec).rotated(degrees)
+
 
 def factors(n):
     '''
@@ -193,6 +207,7 @@ def factors(n):
     v0.4.9+         --> pydsigner
     '''
     return set((x for x in range(1, int(n ** .5) + 2) if not n % x)) | set([n])
+
 
 def polyroots(q, p, pol):
     '''
@@ -207,7 +222,7 @@ def polyroots(q, p, pol):
     AUTHORS:
     v0.5.1+         --> pydsigner
     '''
-    s = set((x for x in set(flatten((((frac(up, uq) for uq, up in [
+    s = set((x for x in set(iter_utils.flatten((((frac(up, uq) for uq, up in [
                     (-qv, -pv), (-qv, pv), (qv, -pv), (qv, pv)]) 
                 for qv in factors(abs(q))) for pv in factors(abs(p))))) 
             if eval(pol.replace('x', 'frac("%s")' % x)) == 0))
@@ -221,6 +236,7 @@ def polyroots(q, p, pol):
         else:
             nset.add(n)
     return nset
+
 
 class ExtendedDecimal(decimal.Decimal):
     '''
@@ -328,17 +344,20 @@ class ExtendedDecimal(decimal.Decimal):
         '''
         return ExtendedDecimal(self * 180 / self.pi())
 
+
 class Vector(object):
     '''
     2d vector class, supports vector and scalar operators, and also provides
     a bunch of high level functions.
     NOTE: This was taken from Eli Bendersky, who took it from the Pygame Wiki
     (http://pygame.org/wiki/2DVectorClass). It was also slightly modified to be
-    cross version compatible, be more sane, and fit in with pgpu. I opted for 
-    this implementation over my own because this was more complete.
+    cross version compatible, be more sane, fit in with pgpu, and be more 
+    useful. I opted for this implementation over my own because this was more 
+    complete.
     
     AUTHORS:
     v0.4.3+         --> Pygame Wiki/pydsigner
+    v1.0.0+         --> Pygame Wiki/pydsigner
     '''
     __slots__ = ['x', 'y']
     def __init__(self, x_or_pair = None, y = None):
@@ -363,7 +382,7 @@ class Vector(object):
         elif key == 1:
             return self.y
         else:
-            raise IndexError("Invalid subscript "+str(key)+" to Vector")
+            raise IndexError('Invalid subscript %s to Vector' % key)
 
     def __setitem__(self, key, value):
         if key == 0:
@@ -371,7 +390,7 @@ class Vector(object):
         elif key == 1:
             self.y = value
         else:
-            raise IndexError("Invalid subscript "+str(key)+" to Vector")
+            raise IndexError('Invalid subscript %s to Vector' % key)
 
     # String representation (for debugging)
     def __repr__(self):
@@ -379,13 +398,13 @@ class Vector(object):
 
     # Comparison
     def __eq__(self, other):
-        if hasattr(other, "__getitem__") and len(other) == 2:
+        if hasattr(other, '__getitem__') and len(other) == 2:
             return self.x == other[0] and self.y == other[1]
         else:
             return False
 
     def __ne__(self, other):
-        if hasattr(other, "__getitem__") and len(other) == 2:
+        if hasattr(other, '__getitem__') and len(other) == 2:
             return self.x != other[0] or self.y != other[1]
         else:
             return True
@@ -396,11 +415,13 @@ class Vector(object):
 
     # Generic operator handlers
     def _o2(self, other, f):
-        "Any two-operator operation where the left operand is a Vector"
+        '''
+        Any two-operator operation where the left operand is a Vector
+        '''
         if isinstance(other, Vector):
             return Vector(f(self.x, other.x),
                          f(self.y, other.y))
-        elif (hasattr(other, "__getitem__")):
+        elif (hasattr(other, '__getitem__')):
             return Vector(f(self.x, other[0]),
                          f(self.y, other[1]))
         else:
@@ -408,8 +429,10 @@ class Vector(object):
                          f(self.y, other))
 
     def _r_o2(self, other, f):
-        "Any two-operator operation where the right operand is a Vector"
-        if (hasattr(other, "__getitem__")):
+        '''
+        Any two-operator operation where the right operand is a Vector
+        '''
+        if (hasattr(other, '__getitem__')):
             return Vector(f(other[0], self.x),
                          f(other[1], self.y))
         else:
@@ -417,8 +440,10 @@ class Vector(object):
                          f(other, self.y))
 
     def _io(self, other, f):
-        "inplace operator"
-        if (hasattr(other, "__getitem__")):
+        '''
+        inplace operator
+        '''
+        if (hasattr(other, '__getitem__')):
             self.x = f(self.x, other[0])
             self.y = f(self.y, other[1])
         else:
@@ -527,23 +552,24 @@ class Vector(object):
 
     # vectory functions
     def get_length_sqrd(self):
-        return self.x**2 + self.y**2
+        return self.x ** 2 + self.y ** 2
 
     def get_length(self):
-        return math.sqrt(self.x**2 + self.y**2)
+        return math.sqrt(self.x ** 2 + self.y ** 2)
+    
     def __setlength(self, value):
         length = self.get_length()
         self.x *= value/length
         self.y *= value/length
     length = property(get_length, __setlength, None, 
-                "gets or sets the magnitude of the vector")
+                'gets or sets the magnitude of the vector')
 
     def rotate(self, angle_degrees):
         radians = math.radians(angle_degrees)
         cos = math.cos(radians)
         sin = math.sin(radians)
-        x = self.x*cos - self.y*sin
-        y = self.x*sin + self.y*cos
+        x = self.x * cos - self.y * sin
+        y = self.x * sin + self.y * cos
         self.x = x
         self.y = y
 
@@ -551,30 +577,31 @@ class Vector(object):
         radians = math.radians(angle_degrees)
         cos = math.cos(radians)
         sin = math.sin(radians)
-        x = self.x*cos - self.y*sin
-        y = self.x*sin + self.y*cos
+        x = self.x * cos - self.y * sin
+        y = self.x * sin + self.y * cos
         return Vector(x, y)
 
     def get_angle(self):
         if (self.get_length_sqrd() == 0):
             return 0
         return math.degrees(math.atan2(self.y, self.x))
+    
     def __setangle(self, angle_degrees):
         self.x = self.length
         self.y = 0
         self.rotate(angle_degrees)
     angle = property(get_angle, __setangle, None, 
-                "gets or sets the angle of a vector")
+                'gets or sets the angle of a vector')
 
     def get_angle_between(self, other):
-        cross = self.x*other[1] - self.y*other[0]
-        dot = self.x*other[0] + self.y*other[1]
+        cross = self.x * other[1] - self.y * other[0]
+        dot = self.x * other[0] + self.y * other[1]
         return math.degrees(math.atan2(cross, dot))
 
     def normalized(self):
         length = self.length
         if length != 0:
-            return self/length
+            return self / length
         return Vector(self)
 
     def normalize_return_length(self):
@@ -590,11 +617,11 @@ class Vector(object):
     def perpendicular_normal(self):
         length = self.length
         if length != 0:
-            return Vector(-self.y/length, self.x/length)
+            return Vector(-self.y / length, self.x / length)
         return Vector(self)
 
     def dot(self, other):
-        return float(self.x*other[0] + self.y*other[1])
+        return float(self.x * other[0] + self.y * other[1])
 
     def get_distance(self, other):
         return euclidean_dist(self, other)
@@ -611,26 +638,15 @@ class Vector(object):
         return self.x*other[1] - self.y*other[0]
 
     def interpolate_to(self, other, range):
-        return Vector(self.x + (other[0] - self.x)*range, self.y + (other[1] - self.y)*range)
+        return Vector(self.x + (other[0] - self.x) * range, 
+                self.y + (other[1] - self.y) * range)
 
     def convert_to_basis(self, x_vector, y_vector):
-        return Vector(self.dot(x_vector)/x_vector.get_length_sqrd(), self.dot(y_vector)/y_vector.get_length_sqrd())
+        return Vector(self.dot(x_vector) / x_vector.get_length_sqrd(), 
+                self.dot(y_vector) / y_vector.get_length_sqrd())
 
     def __getstate__(self):
         return [self.x, self.y]
 
     def __setstate__(self, dict):
         self.x, self.y = dict
-
-
-
-if __name__ == '__main__':
-    Print(convert_to_base(-100, 10))
-    Print(convert_to_base(340.4, 30))
-    Print(convert_to_base(560, 4.3))
-    Print(sgp_with_base(534, 10))
-    Print(sgp_with_base(353, 19))
-    Print(legs(2))
-    Print(legs(14, (16, 9)))
-    Print(euclidean_dist((3, 6), (5, 8)))
-    Print(euclidean_dist((9, 2), (7, 1)))

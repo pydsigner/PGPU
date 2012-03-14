@@ -1,17 +1,25 @@
 import pgpu.dictionaries as ds
-from pgpu.compatibility import *
+from pgpu.compatibility import Print, range
 import time
 
+
 def recursive_size(obj):
-    #Print(obj)
-    #Print(dir(obj))
-    do = [a for a in dir(obj) if not (a.startswith('__') or a.startswith('im_'))]
-    #Print(do)
-    return obj.__sizeof__() + sum(recursive_size(getattr(obj, a))  for a in do)
+    do = (a for a in dir(obj) 
+            if not (a.startswith('__') or a.startswith('im_')))
+    return obj.__sizeof__() + sum(recursive_size(getattr(obj, a)) for a in do)
+
 
 class Clueless(object):
     def update(self):
         Print('What happened?')
+
+
+class Informed(object):
+    def __init__(self, d):
+        self.d = d
+    
+    def update(self):
+        Print('Current dictionary state: %s' % self.d)
 
 class TimeBreakdown:
     def __init__(self, method = time.time):
@@ -34,21 +42,25 @@ class TimeBreakdown:
         return res
         
     def __str__(self):
-        return '\n'.join([str(i) for i in self.get_vals()])
+        return '\n'.join(str(i) for i in self.get_vals())
+
 
 if __name__ == '__main__':
-    c = Clueless()
-    d = ds.UpdatingDict(a=1,v=3)
-    d.add_notify(c)
+    d = ds.UpdatingDict(a = 1, v = 3)
+    d.add_notify(Clueless())
+    d.add_notify(Informed(d))
     del d['v']
     d['c'] = 3
+    Print('-' * 10)
     
     timer = TimeBreakdown()
-    d = ds.SortedDict(('a', 1), ('b',2), ('c',3))
+    d = ds.SortedDict(('a', 1), ('b', 2), ('c', 3))
     Print(d)
     Print(d.get_at(0))
     d.delete_at(1)
     Print(d['c'])
+    Print('----')
+    
     timer.flag()
     d.rebuild()
     timer.flag()
@@ -56,6 +68,7 @@ if __name__ == '__main__':
     timer.flag()
     Print(timer)
     Print('----')
+    
     timer.reset()
     timer.flag()
     d = ds.SortedDict(range(5500), range(5500))
@@ -68,6 +81,7 @@ if __name__ == '__main__':
     timer.flag()
     Print(timer)
     Print('----')
+    
     timer.reset()
     Print(recursive_size(d))
     timer.flag()
@@ -75,4 +89,3 @@ if __name__ == '__main__':
     timer.flag()
     Print(recursive_size(d))
     Print(timer)
-    Print('----')

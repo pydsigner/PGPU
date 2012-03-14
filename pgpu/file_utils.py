@@ -10,6 +10,7 @@ import os
 FAIL = 0
 SKIP = 1
 
+
 def parse_conf(lines):
     '''
     A simple configuration file parser.
@@ -30,6 +31,7 @@ def parse_conf(lines):
         dt[p[0]] = p[1].split(', ')
     return dt
 
+
 def make_conf(data):
     '''
     A simple dict-to-configuration-file converter. designed to work with
@@ -41,13 +43,12 @@ def make_conf(data):
     
     AUTHORS:
     v0.2.0+         --> pydsigner
+    v1.0.0+         --> pydsigner
     '''
-    lines = []
-    for k in data:
-        lines.append(k + '\t' + ', '.join(data[k]))
-    return lines
+    return (k + '\t' + ', '.join(data[k]) for k in data)
 
-def size_of_dir(directory, error_handling = SKIP):
+
+def size_of_dir(directory, error_handling=SKIP):
     '''
     Returns the overall size of directory @directory. @error_handling 
     determines whether OSError()'s will cause the function to fail.
@@ -74,7 +75,8 @@ def size_of_dir(directory, error_handling = SKIP):
     os.chdir(cwd)
     return size
 
-def exists_in_path(f, case = True):
+
+def exists_in_path(f, case=True):
     '''
     AUTHORS:
     v0.2.10+            --> pydsigner
@@ -87,16 +89,3 @@ def exists_in_path(f, case = True):
             else:
                 if i == f:
                     return p
-
-if __name__ == '__main__':
-    f = os.environ['HOME']
-    s = size_of_dir(f)
-    print('Size of ' + f + ':')
-    if s < 1024 * 4:
-        print('%s bytes' % s)
-    elif s < 1024 ** 2* 4:
-        print('%s kilobytes' % (s / 1024.0))
-    elif s < 1024 ** 3 * 4:
-        print('%s megabytes' % (s / 1024.0 ** 2))
-    else:
-        print('%s gigabytes' % (s / 1024.0 ** 3))

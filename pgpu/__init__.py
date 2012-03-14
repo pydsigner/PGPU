@@ -1,123 +1,51 @@
 '''
-Generic iterable utilities.
+Pydsigner's Generic Python Utilities (PGPU) -- a collection of handy modules 
+and packages for Python.
+
+__init__        --  version information
+compatibility   --  module to make it easier to write modules compatible with 
+                    both 2.x and 3.x
+iter_utils      --  generic iterable utilities
+file_utils      --  file utility module
+math_utils      --  utilities to work with bases plus some trig utilities
+security        --  security and encoding module
+time_widgets    --  tkinter time widgets
+tk_utils        --  tkinter widgets and helper functions
+wrappers        --  utility value wrappers for places requiring functions
+
+tkinter2x       --  2.x and 3.x compatibility layer for tkinter
+
+
+Version information.
+
+NOTE: This module used to contain "Generic iterable utilities". This is now 
+deprecated, with the corresponding functions moved to iter_utils. The 
+compatibility layer in this module will be removed, perhaps in the next 
+release.
 
 AUTHORS:
 v0.2.0+             --> pydsigner
+v1.0.0+             --> pydsigner
 '''
-__version__ = '0.5.4'
+__version__ = '1.0.0'
 
-def replace_many(s, d, inverse = False):
-    '''
-    Goes through dict @d's keys and replaces their occurences with their 
-    value. If @inverse is true, the values are replaced by the keys.
-    NOTE: Results may vary from run to run and machine to machine because of 
-    Python's dictionary optimization, especially if @inverse is true and some 
-    keys have the same value. If @inverse is true, no empty strings can be 
-    among the values, and if not, no empty string keys.
+import importlib
+import functools
 
-    >>> replace_many('quantum_junk10', {'1': '', '0': 'o', '_': ' '})
-    'quantum junko'
-    >>> replace_many('quantum_junk10', {'a': '0', 'b': '1'}, True)
-    'quantum_junkba'
-    >>> replace_many('quantum_junk10', {'': '5'})
-    <TypeError traceback>
+_warning = DeprecationWarning(
+        'This function has been moved to iter_utils, and is now deprecated!')
 
-    AUTHORS:
-    v0.2.0+             --> pydsigner
-    '''
-    if inverse:
-        for k in d:
-            s = s.replace(d[k], k)
-    else:
-        for k in d:
-            s = s.replace(k, d[k])
-    return s
 
-def remove_many(s, l):
-    '''
-    Goes through every item of @l and removes their occurences in @s.
-    
-    >>> remove_many('quantum_junk10', '_0123456789')
-    'quantumjunk'
-    
-    AUTHORS:
-    v0.2.0+             --> pydsigner
-    '''
-    d = {}
-    for i in l:
-        d[i] = ''
-    return replace_many(s, d)
+def _runner(name, *args, **kw):
+    raise _warning
+    return getattr(importlib.import_module('iter_utils'), name)(*args, **kw)
 
-def keep_many(s, l):
-    '''
-    Goes through @s and removes all chars that are not in @l.
-    
-    >>> keep_many('quantum_junk10', 'abcdefghijklmnopq')
-    'qanmjnk'
-    
-    AUTHORS:
-    v0.2.0-v0.3.6.3     --> pydsigner
-    v0.3.7+             --> ffao/pydsigner'''
-    return ''.join(c for c in s if c in l)
 
-def section(itr, size):
-    '''
-    Goes through @itr and splits it up into chunks of @size.
-    
-    >>> section('quantum_junk10', 3)
-    ['qua', 'ntu', 'm_j', 'unk', '10']
-    
-    AUTHORS:
-    v0.3.1+             --> pydsigner
-    '''
-    r = itr[:]
-    res = []
-    while r:
-        res.append(r[:size])
-        r = r[size:]
-    return res
+replace_many = functools.partial(_runner, 'replace_many')
+remove_many = functools.partial(_runner, 'remove_many')
+keep_many = functools.partial(_runner, 'keep_many')
+section = functools.partial(_runner, 'section')
+find = functools.partial(_runner, 'find')
+flatten = functools.partial(_runner, 'flatten')
 
-def find(itr, value, *args, **kw):
-    '''
-    Just like str().find(), but also works for list()'s, which have a 
-    .index() like str()'s do but no .find().
-    
-    AUTHORS:
-    v0.4.4+         --> pydsigner
-    '''
-    try:
-        return itr.index(value, *args, **kw)
-    except ValueError:
-        return -1
-
-def flatten(obj, levels = -1):
-    '''
-    Flattens object @obj into a list. If an iterator, @obj will be recursed 
-    up @levels times if @levels is not negative, else until there are no more 
-    nested lists. If the recursion limit has been reached, a list() version of 
-    @obj will be returned. If @obj is not an iterator, a list containing @obj 
-    will be returned.
-    
-    >>> flatten(1)
-    [1]
-    >>> flatten([1, [2, [[[3, [[[4]]]]], 5, [6]]]]]])
-    [1, 2, 3, 4, 5, 6]
-    >>> flatten([1, [2, [3]], 4], 1)
-    [1, 2, [3], 4]
-    >>> l2 = l = [0]
-    >>> l.append(l2)    # a recursive object!
-    >>> flatten(l, 4)   # using recursion limits to avoid errors
-    [0, 0, 0, 0, 0, [0, [...]]]
-    
-    AUTHORS:
-    v0.4.8+         --> pydsigner
-    '''
-    if hasattr(obj, '__iter__'):
-        if levels == 0:
-            l = list(obj)
-        else:
-            lvl = levels - 1 if levels > 0 else levels
-            l = sum((flatten(sl, lvl) for sl in obj), [])
-    else:
-        l = [obj]
-    return l
+del _runner, importlib, functools
