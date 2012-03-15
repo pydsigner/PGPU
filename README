@@ -24,7 +24,7 @@ $ python test_dictionaries.py
 This example is a demo/test of dictionaries.UpdatingDict() and 
 dictionaries.SortedDict().
 
-$ python test_lib.py
+$ python test_libs.py
 
 This example is a demo/test of math_utils, iter_utils, file_utils, and 
 security. Can easily and most likely will be extended in the future.
