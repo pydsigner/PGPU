@@ -27,7 +27,7 @@ AUTHORS:
 v0.2.0+             --> pydsigner
 v1.0.0+             --> pydsigner
 '''
-__version__ = '1.0.0'
+__version__ = '1.0.1'
 
 import importlib
 import functools

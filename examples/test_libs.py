@@ -32,7 +32,9 @@ tests = {'security': [
             (m_u.legs, 2), 
             (m_u.legs, random.randint(10, 30), (16, 9)), 
             (m_u.euclidean_dist, (3, 6), (5, 8)),
-            (m_u.euclidean_dist, (9, 2), (7, 1))],
+            (m_u.euclidean_dist, (9, 2), (7, 1)),
+            (m_u.pascals_triangle, 5),
+            (m_u.polyroots, 1, 2, 'x**3 - 2*x**2 - x + 2')],
         'file_utils': [(f_u.size_of_dir, t_f_u(os.environ['HOME']))],
         'iter_utils': [
             (i_u.replace_many, 'quantum_junk10', 
