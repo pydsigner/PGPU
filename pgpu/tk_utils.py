@@ -20,7 +20,7 @@ MONO_FONTS = ['Liberation Mono', 'DejaVu Sans Mono', 'Monospace', 'FreeMono']
 ALLCAP_FONTS = ['Algerian', 'Castellar']
 
 
-def best_font(master, fonts = []):
+def best_font(master, fonts=[]):
     '''
     Returns the first font name in @fonts that tkinter can find. Pass a Tk() 
     instance to @master.
@@ -28,10 +28,41 @@ def best_font(master, fonts = []):
     AUTHORS:
     v0.2.0+         --> pydsigner
     '''
-    sysfonts = families(root = master)
+    sysfonts = families(root=master)
     for font in fonts:
         if font in sysfonts:
             return font
+
+
+class SList(tk.Frame):
+    '''
+    A basic scrolling list display based on Mark Lutz's ScrolledList() widget 
+    from Programming Python, 
+    3rd edition.
+    
+    AUTHORS:
+    v1.0.2+         --> pydsigner/Mark Lutz
+    '''
+    def __init__(self, master):
+        tk.Frame.__init__(self, master)
+        
+        sbar = tk.Scrollbar(self)
+        l = tk.Listbox(self, relief=SUNKEN)
+        
+        sbar.config(command=l.yview)
+        l.config(yscrollcommand=sbar.set)
+        
+        sbar.pack(side=RIGHT, fill=Y)
+        l.pack(side=LEFT, expand=YES, fill=BOTH)
+        
+        self.listbox = l
+    
+    def set(self, l):
+        '''
+        Fill the listbox.
+        '''
+        self.listbox.delete(0, END)
+        self.listbox.insert(END, *l)
 
 
 class TextPlus(tk.Text):
@@ -63,6 +94,7 @@ class STextPlus(stext.ScrolledText, TextPlus):
     v0.4.4+         --> pydsigner
     '''
 
+
 class Console(TextPlus):
     '''
     An extension of TextPlus() widget that additionally acts like a file. 
@@ -90,7 +122,7 @@ class Console(TextPlus):
         '''
         self._cache = self._oldcache = self.gettext()
     
-    def peek(size = -1):
+    def peek(size=-1):
         '''
         Same as read, but does not affect the cache.
         '''
@@ -100,7 +132,7 @@ class Console(TextPlus):
     
     ### Standard file read methods
     
-    def read(size = -1):
+    def read(size=-1):
         if size < 0:
             size = len(self._cache)
         sz = int(size)
@@ -108,7 +140,7 @@ class Console(TextPlus):
         self._cache = self._cache[sz:]
         return res
     
-    def readline(size = -1):
+    def readline(size=-1):
         maxdata = self.peek(size)
         pos = maxdata.find('\n')
         if pos != -1:
@@ -116,7 +148,7 @@ class Console(TextPlus):
         else:
             return self.read(size)
     
-    def readlines(size = -1):
+    def readlines(size=-1):
         '''
         Uses .readline() to get lines; if size is positive, the total data 
         size will be roughly bounded by it.
@@ -195,44 +227,45 @@ class FontDialog(tk.Toplevel):
         self.title('Choose Font')
         self.protocol('WM_DELETE_WINDOW', self.cancel)
         
-        self.preview = tk.Label(self, font = ('courier', 15, 'bold'), 
-                text = 'Font')
-        self.preview.pack(side = TOP)
+        self.preview = tk.Label(self, font=('courier', 15, 'bold'), text='Font')
+        self.preview.pack(side=TOP)
+        
         buttonbar = tk.Frame(self)
-        tk.Button(buttonbar, text = 'Ok', command = self.ok).pack(side = LEFT)
-        tk.Button(buttonbar, text = 'Cancel', command = self.cancel
-                ).pack(side = RIGHT)
-        buttonbar.pack(side = BOTTOM)
+        tk.Button(buttonbar, text='Ok', command=self.ok).pack(side=LEFT)
+        tk.Button(buttonbar, text='Cancel', command=self.cancel
+                ).pack(side=RIGHT)
+        buttonbar.pack(side=BOTTOM)
         
         self.font = tk.StringVar()
         self.bold = tk.IntVar()
+        
         if 'bold' in defaults[2]:
             self.bold.set(1)
         self.italic = tk.IntVar()
         if 'italic' in defaults[2]:
             self.italic.set(1)
+        
         modbar = tk.Frame(self)
         mleft = tk.Frame(modbar)
         self.size = tk.IntVar()
         self.size.set(defaults[1])
         
         tk.OptionMenu(mleft, self.size, 
-                7, 8, 9, 10, 11, 12, 13, 14, 16, 18, 20, 22, 24
-                ).pack(side = TOP)
-        tk.Checkbutton(mleft, variable = self.bold).pack(side = TOP)
-        tk.Checkbutton(mleft, variable = self.italic).pack(side = TOP)
-        mleft.pack(side = LEFT)
+                7, 8, 9, 10, 11, 12, 13, 14, 16, 18, 20, 22, 24).pack(side=TOP)
+        tk.Checkbutton(mleft, variable=self.bold).pack(side=TOP)
+        tk.Checkbutton(mleft, variable=self.italic).pack(side=TOP)
+        mleft.pack(side=LEFT)
         mright = tk.Frame(modbar)
-        tk.Label(mright, text = 'size').pack(side = TOP)
-        tk.Label(mright, text = 'bold').pack(side = TOP)
-        tk.Label(mright, text = 'italic').pack(side = TOP)
-        mright.pack(side = LEFT)
-        modbar.pack(side = RIGHT)
+        tk.Label(mright, text='size').pack(side=TOP)
+        tk.Label(mright, text='bold').pack(side=TOP)
+        tk.Label(mright, text='italic').pack(side=TOP)
+        mright.pack(side=LEFT)
+        modbar.pack(side=RIGHT)
         fontbar = tk.Frame(self)
         self.font = tk.StringVar()
         tk.OptionMenu(fontbar, self.font, *sorted(self.fonts())).pack()
         self.font.set(defaults[0])
-        fontbar.pack(side = LEFT)
+        fontbar.pack(side=LEFT)
         self.update()
         self.grab_set()
         self.focus_set()

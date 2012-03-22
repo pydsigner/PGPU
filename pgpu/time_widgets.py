@@ -18,7 +18,7 @@ class DigitalClock(tk.Label):
     AUTHORS:
     v0.2.2+         --> pydsigner
     '''
-    def __init__(self, master = None, time_format = '%H:%M:%S', **kw):
+    def __init__(self, master=None, time_format='%H:%M:%S', **kw):
         '''
         @time_format is passed to time.strftime() to obtain the displayed 
         time look. **@kw is passed to the Label() constructor.
@@ -46,7 +46,7 @@ class BasicChronograph(tk.Label):
     AUTHORS:
     v0.2.2+         --> pydsigner
     '''
-    def __init__(self, master = None, **kw):
+    def __init__(self, master=None, **kw):
         '''
         **@kw is passed to the Label() constructor.
         '''
@@ -71,13 +71,13 @@ class BasicChronograph(tk.Label):
     
     def reset(self):
         self.on = False
-        self.starttime = datetime.timedelta(seconds = time.time())
+        self.starttime = datetime.timedelta(seconds=time.time())
         self['text'] = '00:00:00.00'
         self.time_expired = datetime.timedelta()
     
     def update(self):
-        timedif = datetime.timedelta(
-                seconds = time.time()) - (self.starttime + self.time_expired)
+        timedif = (datetime.timedelta(seconds=time.time()) - 
+                (self.starttime + self.time_expired))
         
         if self.on:
             self.time_expired += timedif
@@ -100,23 +100,22 @@ class Chronograph(tk.Frame):
     AUTHORS:
     v0.2.2+         --> pydsigner
     '''
-    def __init__(self, master = None, **kw):
+    def __init__(self, master=None, **kw):
         '''
         **@kw is passed to the BasicChronograph() constructor.
         '''
         tk.Frame.__init__(self, master)
         
         self.chron = BasicChronograph(self, **kw)
-        self.chron.pack(side = TOP)
+        self.chron.pack(side=TOP)
         
         self.bbar = tk.Frame(self)
-        self.bbar.pack(side = BOTTOM)
+        self.bbar.pack(side=BOTTOM)
         
-        self.stopstart = tk.Button(self.bbar, text = 'start', 
-                command = self.flip)
-        self.reset = tk.Button(self.bbar, text = 'reset', command = self.reset)
-        self.stopstart.pack(side = LEFT)
-        self.reset.pack(side = RIGHT)
+        self.stopstart = tk.Button(self.bbar, text='start', command=self.flip)
+        self.reset = tk.Button(self.bbar, text='reset', command=self.reset)
+        self.stopstart.pack(side=LEFT)
+        self.reset.pack(side=RIGHT)
     
     def flip(self):
         if self.chron.on:
