@@ -68,8 +68,7 @@ encoder_classes['pd2'] = PD2
 class PD3(object):
     '''
     A more advanced hasher based on PD2(). Should be suitable for passwords, 
-    as well as checksums, especially as it is a new hasher. NOTE: This is 
-    slow!
+    as well as checksums, especially as it is a new hasher. NOTE: This is slow!
     
     AUTHORS:
     v0.2.6+         --> pydsigner

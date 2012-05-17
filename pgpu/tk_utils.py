@@ -37,8 +37,7 @@ def best_font(master, fonts=[]):
 class SList(tk.Frame):
     '''
     A basic scrolling list display based on Mark Lutz's ScrolledList() widget 
-    from Programming Python, 
-    3rd edition.
+    from Programming Python, 3rd edition.
     
     AUTHORS:
     v1.0.2+         --> pydsigner/Mark Lutz
