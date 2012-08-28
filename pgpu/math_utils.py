@@ -98,7 +98,8 @@ def euclidean_dist(c1, c2):
     16.76305461424021
     
     AUTHORS:
-    v0.2.0+         --> pydsigner'''
+    v0.2.0+         --> pydsigner
+    '''
     return math.hypot(c1[0] - c2[0], c1[1] - c2[1])
 
 
@@ -110,7 +111,8 @@ def sane_hex(v):
     '-34e'
     
     AUTHORS:
-    v0.3.3+         --> pydsigner'''
+    v0.3.3+         --> pydsigner
+    '''
     i = int(v)
     sign = '-' if i < 0 else ''
     i = abs(i)
@@ -119,9 +121,10 @@ def sane_hex(v):
 
 
 def limit(val, bottom = None, top = None):
-    '''Will return a copy of @val in such a way that:
-    If @bottom is not None, the result will be no less that @bottom;
-    If @top is not None, the result will be no more that @top.
+    '''
+    Will return a copy of @val in such a way that:
+    If @bottom is not None, the result will be no less than @bottom;
+    If @top is not None, the result will be no more than @top.
     
     >>> limit(10)
     10
@@ -199,14 +202,73 @@ def rotate_vector(vec, degrees):
     return Vector(vec).rotated(degrees)
 
 
+def factor(n):
+    '''
+    Returns a list of primes (excluding 1) which, when multiplied together, 
+    equal @n.
+    NOTE: This is not the same as factors() below, which returns every whole
+    number that can divide into @n evenly.
+    NOTE: If @n is prime, this function returns an empty list.
+    
+    >>> factor(5)
+    []
+    >>> factor(34)
+    [2, 17]
+    >>> factor(132)
+    [2, 2, 3, 11]
+    
+    AUTHORS:
+    v1.0.4+         --> pydsigner
+    '''
+    # NOTE: Could do a primes check, but that would probably be about as 
+    # expensive.
+    # TODO: is there a shortcut for this?
+    ceil = n // 2 + 1
+    factors = []
+    i = 2
+    # Note that, if @n is 1, this code will never run. So a hardwire doesn't 
+    # seem to make sense.
+    while i < ceil:
+        nn, rem = divmod(n, i)
+        if rem:
+            i += 1
+        else:
+            n = nn
+            factors.append(i)
+    
+    return factors
+
+
+def ifactor(n):
+    '''
+    The same as factor() above, but designed as a generator; this function 
+    should be better for massive numbers.
+    
+    AUTHORS:
+    v1.0.4+         --> pydsigner
+    '''
+    ceil = n // 2 + 1
+    i = 2
+    while i < ceil:
+        nn, rem = divmod(n, i)
+        if rem:
+            i += 1
+        else:
+            n = nn
+            yield i
+
+
 def factors(n):
     '''
     Returns an set of every factor of @n (including 1 and @n).
     
+    >>> factors(36)
+    set([1, 2, 3, 4, 6, 9, 12, 18, 36])
+
     AUTHORS:
     v0.4.9+         --> pydsigner
     '''
-    return set((x for x in range(1, int(n ** .5) + 2) if not n % x)) | set([n])
+    return set((x for x in range(1, n // 2 + 1) if not n % x)) | set((n))
 
 
 def polyroots(q, p, pol):
