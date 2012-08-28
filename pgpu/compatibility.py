@@ -5,8 +5,6 @@ AUTHORS:
 v0.2.0+         --> pydsigner
 '''
 
-import sys
-
 __all__ = ['input', 'range', 'chr', 'str', 'Print']
 
 try:
