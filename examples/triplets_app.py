@@ -1,3 +1,4 @@
+#! /usr/bin/env python
 import pgpu.tk_utils as tk_utils
 from pgpu.tkinter2x.constants import *
 import pgpu.tkinter2x as tk

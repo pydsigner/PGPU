@@ -1,3 +1,4 @@
+#! /usr/bin/env python
 import pgpu.tkinter2x as tk
 from pgpu.tkinter2x.filedialog import askopenfilename
 from pgpu.tkinter2x.constants import *

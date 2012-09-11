@@ -1,3 +1,4 @@
+#! /usr/bin/env python
 import pgpu.dictionaries as ds
 from pgpu.compatibility import Print, range
 import time

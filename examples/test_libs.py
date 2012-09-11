@@ -1,3 +1,4 @@
+#! /usr/bin/env python
 '''
 All `if __name__ == '__main__': do_x()` code has been transformed into this 
 module.
@@ -15,9 +16,9 @@ from pgpu import file_utils as f_u
 from pgpu import iter_utils as i_u
 
 
-def t_f_u(d):
-    return random.choice(
-            [join(d, f) for f in ls(d) if os.path.isdir(join(d, f))])
+def rand_folder(d):
+    return random.choice([join(d, f) for f in ls(d) 
+                          if os.path.isdir(join(d, f))])
 
 
 tests = {'security': [
@@ -39,7 +40,7 @@ tests = {'security': [
             (m_u.factor, 34),
             (m_u.factor, 132),
             (m_u.factors,  36)],
-        'file_utils': [(f_u.size_of_dir, t_f_u(os.environ['HOME']))],
+        'file_utils': [(f_u.size_of_dir, rand_folder(os.environ['HOME']))],
         'iter_utils': [
             (i_u.replace_many, 'quantum_junk10', 
                 {'1': '', '0': 'o', '_': ' '}), 
