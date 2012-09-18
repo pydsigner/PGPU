@@ -2,7 +2,8 @@
 Module to make it easier to write code compatible with both 2.x and 3.x.
 
 AUTHORS:
-v0.2.0+         --> pydsigner
+v0.2.0+             --> pydsigner
+v1.0.1+             --> pydsigner
 '''
 
 __all__ = ['input', 'range', 'chr', 'str', 'Print']
@@ -12,7 +13,6 @@ try:
     range = xrange
     chr = unichr
     str = unicode
-
 except NameError:
     pass
 

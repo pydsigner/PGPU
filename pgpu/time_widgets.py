@@ -2,7 +2,7 @@
 Tkinter time widgets.
 
 AUTHORS:
-v0.2.2+         --> pydsigner
+v0.2.2+                --> pydsigner
 '''
 
 import tkinter2x as tk
@@ -16,7 +16,7 @@ class DigitalClock(tk.Label):
     A digital clock display based on Label().
     
     AUTHORS:
-    v0.2.2+         --> pydsigner
+    v0.2.2+             --> pydsigner
     '''
     def __init__(self, master=None, time_format='%H:%M:%S', **kw):
         '''
@@ -44,7 +44,7 @@ class BasicChronograph(tk.Label):
     A basic chronograph widget that must be code controlled.
     
     AUTHORS:
-    v0.2.2+         --> pydsigner
+    v0.2.2+             --> pydsigner
     '''
     def __init__(self, master=None, **kw):
         '''
@@ -98,7 +98,7 @@ class Chronograph(tk.Frame):
     external controls.
     
     AUTHORS:
-    v0.2.2+         --> pydsigner
+    v0.2.2+             --> pydsigner
     '''
     def __init__(self, master=None, **kw):
         '''

@@ -5,7 +5,7 @@ AUTHORS:
 v1.0.0+             --> pydsigner
 '''
 
-def replace_many(s, d, inverse = False):
+def replace_many(s, d, inverse=False):
     '''
     Goes through dict @d's keys and replaces their occurences with their 
     value. If @inverse is true, the values are replaced by the keys.
@@ -32,6 +32,7 @@ def replace_many(s, d, inverse = False):
             s = s.replace(k, d[k])
     return s
 
+
 def remove_many(s, l):
     '''
     Goes through every item of @l and removes their occurences in @s.
@@ -47,6 +48,7 @@ def remove_many(s, l):
         d[i] = ''
     return replace_many(s, d)
 
+
 def keep_many(s, l):
     '''
     Goes through @s and removes all chars that are not in @l.
@@ -55,9 +57,10 @@ def keep_many(s, l):
     'qanmjnk'
     
     AUTHORS:
-    v0.2.0-v0.3.6.3     --> pydsigner
+    v0.2.0+             --> pydsigner
     v0.3.7+             --> ffao/pydsigner'''
     return ''.join(c for c in s if c in l)
+
 
 def section(itr, size):
     '''
@@ -76,20 +79,22 @@ def section(itr, size):
         r = r[size:]
     return res
 
+
 def find(itr, value, *args, **kw):
     '''
     Just like str().find(), but also works for list()'s, which have a 
     .index() like str()'s do but no .find().
     
     AUTHORS:
-    v0.4.4+         --> pydsigner
+    v0.4.4+             --> pydsigner
     '''
     try:
         return itr.index(value, *args, **kw)
     except ValueError:
         return -1
 
-def flatten(obj, levels = -1):
+
+def flatten(obj, levels=-1):
     '''
     Flattens object @obj into a list. If an iterator, @obj will be recursed 
     up @levels times if @levels is not negative, else until there are no more 
@@ -109,7 +114,7 @@ def flatten(obj, levels = -1):
     [0, 0, 0, 0, 0, [0, [...]]]
     
     AUTHORS:
-    v0.4.8+         --> pydsigner
+    v0.4.8+             --> pydsigner
     '''
     if hasattr(obj, '__iter__'):
         if levels == 0:

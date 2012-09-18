@@ -2,7 +2,7 @@
 Tkinter widgets and helper functions.
 
 AUTHORS:
-v0.2.0+         --> pydsigner
+v0.2.0+             --> pydsigner
 '''
 
 from tkinter2x.font import families
@@ -26,7 +26,7 @@ def best_font(master, fonts=[]):
     instance to @master.
     
     AUTHORS:
-    v0.2.0+         --> pydsigner
+    v0.2.0+             --> pydsigner
     '''
     sysfonts = families(root=master)
     for font in fonts:
@@ -40,7 +40,7 @@ class SList(tk.Frame):
     from Programming Python, 3rd edition.
     
     AUTHORS:
-    v1.0.2+         --> pydsigner/Mark Lutz
+    v1.0.2+             --> pydsigner/Mark Lutz
     '''
     def __init__(self, master):
         tk.Frame.__init__(self, master)
@@ -72,7 +72,7 @@ class TextPlus(tk.Text):
     Programming Python, 3rd Edition.
     
     AUTHORS:
-    v0.4.4+     --> pydsigner/Mark Lutz
+    v0.4.4+             --> pydsigner/Mark Lutz
     '''
     def gettext(self):
         return self.get('1.0', END + '-1c')
@@ -89,8 +89,8 @@ class STextPlus(stext.ScrolledText, TextPlus):
     A simple subclass of TextPlus() with scrolling.
     
     AUTHORS:
-    v0.2.0-v0.4.3   --> pydsigner/Mark Lutz
-    v0.4.4+         --> pydsigner
+    v0.2.0+             --> pydsigner/Mark Lutz
+    v0.4.4+             --> pydsigner
     '''
 
 
@@ -102,7 +102,7 @@ class Console(TextPlus):
     refresh()ed.
     
     AUTHORS:
-    v0.4.4+         --> pydsigner
+    v0.4.4+             --> pydsigner
     '''
     def __init__(self, master, *args, **kw):
         TextPlus.__init__(self, master, *args, **kw)
@@ -178,7 +178,7 @@ class SConsole(stext.ScrolledText, Console):
     A simple subclass of Console() with scrolling.
     
     AUTHORS:
-    v0.4.4+         --> pydsigner
+    v0.4.4+             --> pydsigner
     '''
 
 
@@ -188,7 +188,7 @@ class RadioBar(tk.Frame):
     in Programming Python, 3rd Edition.
     
     AUTHORS:
-    v0.2.0+         --> pydsigner/Mark Lutz
+    v0.2.0+             --> pydsigner/Mark Lutz
     '''
     def __init__(self, parent=None, default=None, picks=[], side=LEFT, 
             anchor=W):
@@ -214,7 +214,7 @@ class FontDialog(tk.Toplevel):
     A font picker megawidget.
     
     AUTHORS:
-    v0.2.2+         --> pydsigner
+    v0.2.2+             --> pydsigner
     '''
     def __init__(self, defaults = ('courier', 11, 'normal'), **kw):
         '''
@@ -302,7 +302,7 @@ def ask_font(*args, **kw):
     FontDialog() creator.
     
     AUTHORS:
-    v0.2.2+         --> pydsigner
+    v0.2.2+             --> pydsigner
     '''
     return FontDialog(*args, **kw).result
 

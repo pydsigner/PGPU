@@ -2,10 +2,11 @@
 File utility module.
 
 AUTHORS:
-v0.2.0+         --> pydsigner
+v0.2.0+             --> pydsigner
 '''
 
 import os
+
 
 FAIL = 0
 SKIP = 1
@@ -21,7 +22,7 @@ def parse_conf(lines):
     {"q": ["1", "2", "3"], "d": ["w"]}
     
     AUTHORS:
-    v0.2.0+         --> pydsigner
+    v0.2.0+             --> pydsigner
     '''
     dt = {}
     for l in lines:
@@ -42,8 +43,8 @@ def make_conf(data):
     ["q 1, 2, 3", "d   w"]
     
     AUTHORS:
-    v0.2.0+         --> pydsigner
-    v1.0.0+         --> pydsigner
+    v0.2.0+             --> pydsigner
+    v1.0.0+             --> pydsigner
     '''
     return (k + '\t' + ', '.join(data[k]) for k in data)
 
@@ -54,7 +55,7 @@ def size_of_dir(directory, error_handling=SKIP):
     determines whether OSError()'s will cause the function to fail.
     
     AUTHORS:
-    v0.2.0+         --> pydsigner
+    v0.2.0+             --> pydsigner
     '''
     cwd = os.getcwd()
     d = os.path.abspath(directory)

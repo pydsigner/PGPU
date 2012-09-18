@@ -4,7 +4,7 @@ function would be overkill, lambdas would be plain annoying, and/or
 state-retention is desired.
 
 AUTHORS:
-0.3.9+          --> pydsigner
+0.3.9+              --> pydsigner
 '''
 
 class ValueWrapper(object):
@@ -21,7 +21,7 @@ class ValueWrapper(object):
     7
     
     AUTHORS:
-    0.3.9+          --> pydsigner
+    0.3.9+              --> pydsigner
     '''
     def __init__(self, value):
         self.value = value
@@ -43,7 +43,7 @@ class BumpWrapper(object):
     18
     
     AUTHORS:
-    0.3.9+          --> pydsigner
+    0.3.9+              --> pydsigner
     '''
     def __init__(self, value, inc):
         self.original_value = self.value = value
@@ -64,6 +64,8 @@ class GiveCount(object):
     argument to max(), min(), and sort(). It counts the occurences of the 
     passed objects and returns that.
     
+    >>> max([1, 2, 3, 3, 2, 1, 1], key=GiveCount())
+    1
     >>> counter = GiveCount()
     >>> counter(GiveCount)
     1
@@ -76,21 +78,23 @@ class GiveCount(object):
     1
     
     AUTHORS:
-    0.3.10+         --> pydsigner
+    0.3.10+             --> pydsigner
     '''
-    def __init__(self, inc = 1):
+    def __init__(self, inc=1):
         self.d = {}
         self.inc = inc
-    def __call__(self, obj, inc = None):
+    
+    def __call__(self, obj, inc=None):
         v = inc if inc != None else self.inc
         if obj in self.d:
             v += self.d[obj]
         self.d[obj] = v
         return v
     
-    def reset(self, inc = None):
+    def reset(self, inc=None):
         self.d = {}
         self.inc = inc if inc != None else self.inc
+    
     def get_count(self, obj):
         self(obj, 0)
         return self.d[obj]
@@ -103,16 +107,16 @@ class CallWrapper(object):
     the docstring to show help for the first function.
     
     AUTHORS:
-    0.4.8+          --> pydsigner
+    0.4.8+              --> pydsigner
     '''
-    def __init__(self, funcs = []):
+    def __init__(self, funcs=[]):
         '''
         Create a CallWrapper() with @funcs for callables. They will be called 
         in order, so that funcs[0] will be called with any passed variables, 
         and then funcs[1] will be called on the result of that and so on.
         '''
         self.funcs = funcs
-        self.__doc__ = funcs[0].__doc__# + '\n\n*Wrapped with CallWrapper!*'
+        self.__doc__ = funcs[0].__doc__
     
     def __repr__(self):
         return 'CallWrapper([%s])' % ', '.join(repr(r) for r in self.funcs)

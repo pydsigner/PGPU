@@ -16,7 +16,8 @@ def main():
     
     # perform the setup action
     setup_args = {
-        'script_args': sys.argv[1:] if len(sys.argv) > 1 else ['install'],
+        'script_args': (sys.argv[1:] if len(sys.argv) > 1 
+                        else ['install']),
         'name': 'pgpu',
         'version': pgpu.__version__,
         'description': pgpu.__doc__.strip().split(NL * 2, 1)[0],
@@ -27,7 +28,7 @@ def main():
         'license': 'LGPLv3',
         'url': 'http://github.com/pydsigner/PGPU',
         'classifiers': [
-            'Development Status :: 4 - Beta',
+            'Development Status :: 5 - Production/Stable',
             'Intended Audience :: Developers',
             'Operating System :: MacOS :: MacOS X',
             'Operating System :: Microsoft :: Windows',
