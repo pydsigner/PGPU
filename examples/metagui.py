@@ -1,15 +1,17 @@
 #! /usr/bin/env python
-import pgpu.tkinter2x as tk
-from pgpu.tkinter2x.filedialog import askopenfilename
-from pgpu.tkinter2x.constants import *
-from pgpu.dictionaries import GUIDict, UpdatingDict
-
 import os
 
 import mutagen
 import mutagen.mp3, mutagen.oggvorbis
 
+import pgpu.tkinter2x as tk
+from pgpu.tkinter2x.filedialog import askopenfilename
+from pgpu.tkinter2x.constants import *
+from pgpu.dictionaries import GUIDict, UpdatingDict
+
+
 MTYPES = {'mp3': mutagen.mp3.MP3, 'ogg': mutagen.oggvorbis.Open}
+
 
 class MutagenGUI(tk.Frame):
     ignore = ['coverart', 'coverartmime']
@@ -30,24 +32,27 @@ class MutagenGUI(tk.Frame):
             self._root().destroy()
     
     def load_new(self):
-        fl = askopenfilename(filetypes = [(k, '*.%s' % k) for k in MTYPES] + 
-                [('Any', '*.*')], title = 'Choose music')
+        fl = askopenfilename(
+          filetypes=[(k, '*.%s' % k) for k in MTYPES] + [('Any', '*.*')], 
+          title='Choose music')
         
         if not fl:
             return
-        
         self.title_label['text'] = os.path.split(fl)[1]
         
         self.opened = MTYPES.get(fl.split('.')[-1])(fl)
+        
         self.d = UpdatingDict(self.opened)
         for k in self.ignore:
             self.d.pop(k, None)
+        
         try:
             self.gdict.destroy()
         except AttributeError:
             pass
+        
         self.gdict = GUIDict(self, self.d)
-        self.gdict.pack(side = TOP, expand = True, fill = BOTH)
+        self.gdict.pack(side=TOP, expand=True, fill=BOTH)
         return True
     
     def dump_changes(self):
@@ -62,13 +67,13 @@ class MutagenGUI(tk.Frame):
 def main():
     win = tk.Tk()
     win.title('Mutagen GUI')
-    tk.Button(win, text = 'Quit', command = win.destroy
-            ).grid(sticky = NW+SE, row = 1, column = 0)
+    tk.Button(win, text='Quit', command=win.destroy).grid(sticky=NW+SE, row=1, 
+                                                          column=0)
     
-    MutagenGUI(win).grid(sticky = NW+SE, row = 0, column = 0)
-    win.rowconfigure(0, weight = 6)
-    win.rowconfigure(1, weight = 1)
-    win.columnconfigure(0, weight = 1)
+    MutagenGUI(win).grid(sticky=NW+SE, row=0, column=0)
+    win.rowconfigure(0, weight=6)
+    win.rowconfigure(1, weight=1)
+    win.columnconfigure(0, weight=1)
     win.mainloop()
 
 if __name__ == '__main__':
