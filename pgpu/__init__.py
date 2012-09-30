@@ -1,6 +1,5 @@
-'''
-Pydsigner's Generic Python Utilities (PGPU) -- a collection of handy modules 
-and packages for Python.
+"Pydsigner's Generic Python Utilities (PGPU) -- a collection of handy modules" 
+'''and packages for Python.
 
 __init__        --  version information
 compatibility   --  module to make it easier to write modules compatible with 
@@ -16,11 +15,12 @@ wrappers        --  utility value wrappers for places requiring functions
 tkinter2x       --  2.x and 3.x compatibility layer for tkinter
 
 
-Version information.
+This file provides version information.
 
 AUTHORS:
 v0.2.0+             --> pydsigner
 v1.0.0+             --> pydsigner
 v1.0.3+             --> pydsigner
 '''
+
 __version__ = '1.0.5.1'

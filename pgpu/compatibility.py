@@ -14,6 +14,9 @@ try:
     chr = unichr
     str = unicode
 except NameError:
-    pass
+    input = input
+    range = range
+    chr = chr
+    str = str
 
 Print = __builtins__.get('print')

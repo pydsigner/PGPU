@@ -14,8 +14,8 @@ import cmath
 import operator
 import decimal
 
-import iter_utils
-from compatibility import range
+from . import iter_utils
+from pgpu.compatibility import range
 
 # should we use string.ascii_uppercase?
 DEFAULT_REP_ORDER = string.digits + string.ascii_lowercase

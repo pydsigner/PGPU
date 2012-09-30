@@ -22,9 +22,9 @@ import decimal
 from decimal import Decimal as dec
 import string
 
-import iter_utils
-from compatibility import str, range, chr
-from math_utils import sane_hex
+from . import iter_utils
+from pgpu.compatibility import str, range, chr
+from pgpu.math_utils import sane_hex
 
 
 __all__ = ['rand_key', 'multi_pass', 'encoder_classes', 'fetcher']
