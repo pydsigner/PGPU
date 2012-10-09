@@ -14,8 +14,8 @@ import cmath
 import operator
 import decimal
 
-from . import iter_utils
-from pgpu.compatibility import range
+from .iter_utils import keep_many, flatten
+from .compatibility import range
 
 # should we use string.ascii_uppercase?
 DEFAULT_REP_ORDER = string.digits + string.ascii_lowercase
@@ -74,7 +74,7 @@ def sgp_with_base(b10int, base):
     return int(math.log(b10int, base)) + 1
 
 
-def legs(hyp, ratio = (1, 1)):
+def legs(hyp, ratio=(1, 1)):
     '''
     Calculates the leg lengths of a triangle with a hypotenuse of @hyp where
     the side length ratio is @ratio. Nice for calculating screen dimensions.
@@ -86,9 +86,9 @@ def legs(hyp, ratio = (1, 1)):
     v0.2.0+             --> pydsigner
     '''
     r = float(ratio[0]) / ratio[1]
-    l2 = hyp / math.sqrt(r ** 2 + 1)
-    l1 = l2 * r
-    return l1, l2
+    L2 = hyp / math.sqrt(r ** 2 + 1)
+    L1 = L2 * r
+    return L1, L2
 
 
 def euclidean_dist(c1, c2):
@@ -117,11 +117,11 @@ def sane_hex(v):
     i = int(v)
     sign = '-' if i < 0 else ''
     i = abs(i)
-    h = iter_utils.keep_many(hex(i), string.hexdigits).lstrip('0') or '0'
+    h = keep_many(hex(i), string.hexdigits).lstrip('0') or '0'
     return sign + h
 
 
-def limit(val, bottom = None, top = None):
+def limit(val, bottom=None, top=None):
     '''
     Will return a copy of @val in such a way that:
     If @bottom is not None, the result will be no less than @bottom;
@@ -136,7 +136,7 @@ def limit(val, bottom = None, top = None):
     >>> limit(10, 1, 8)
     8
     >>> # Can be used with anything that can be compared using max() and min()
-    ... limit('6', None, '3')
+    ... limit('6', top='3')
     '3'
     
     AUTHORS:
@@ -269,7 +269,7 @@ def factors(n):
     AUTHORS:
     v0.4.9+             --> pydsigner
     '''
-    return set((x for x in range(1, n // 2 + 1) if not n % x)) | set((n))
+    return set(x for x in range(1, n // 2 + 1) if not n % x) | set((n,))
 
 
 def polyroots(q, p, pol):
@@ -284,15 +284,21 @@ def polyroots(q, p, pol):
     
     AUTHORS:
     v0.5.1+             --> pydsigner
+    v1.1.0+             --> pydsigner
     '''
-    # TODO: Really need to explain this!
-    s = set((x for x in set(iter_utils.flatten((((frac(up, uq) for uq, up in [
-                    (-qv, -pv), (-qv, pv), (qv, -pv), (qv, pv)]) 
-                for qv in factors(abs(q))) for pv in factors(abs(p))))) 
-            if eval(pol.replace('x', 'frac("%s")' % x)) == 0))
+    # First a set of fractions is generated from the factors of @q and @p;
+    # These fractions are every possible (x/y equaling -x/-y and 
+    # -x/y equaling x/-y) combination of these factors (the factors of @p being 
+    # in the denominator) that makes the polynomial equal 0
+    S = set(x for x in 
+      set(flatten((frac(pv, qv), frac(-pv, qv)) for qv in factors(abs(q)) 
+                   for pv in factors(abs(p)))) 
+      if eval(pol.replace('x', 'frac("%s")' % x)) == 0)
     
+    # Make new set where whole numbers are changed to int()s and any lossless 
+    # conversions to float()s are made
     nset = set()
-    for n in s:
+    for n in S:
         if n.denominator == 1:
             nset.add(n.numerator)
         elif frac(float(n)) == n:
@@ -424,7 +430,7 @@ class Vector(object):
     v1.0.0+             --> Pygame Wiki/pydsigner
     '''
     __slots__ = ['x', 'y']
-    def __init__(self, x_or_pair = None, y = None):
+    def __init__(self, x_or_pair=None, y=None):
         if y == None:
             if x_or_pair == None:
                 self.x = self.y = 0
@@ -694,9 +700,9 @@ class Vector(object):
         return (self.x - other[0])**2 + (self.y - other[1])**2
 
     def projection(self, other):
-        other_length_sqrd = other[0]*other[0] + other[1]*other[1]
-        projected_length_times_other_length = self.dot(other)
-        return other*(projected_length_times_other_length/other_length_sqrd)
+        other_length_sqrd = other[0] ** 2 + other[1] ** 2
+        proj_length_times_other_length = self.dot(other)
+        return other * (proj_length_times_other_length / other_length_sqrd)
 
     def cross(self, other):
         return self.x*other[1] - self.y*other[0]

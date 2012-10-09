@@ -23,4 +23,4 @@ v1.0.0+             --> pydsigner
 v1.0.3+             --> pydsigner
 '''
 
-__version__ = '1.0.6'
+__version__ = '1.1.0'

@@ -22,33 +22,46 @@ def rand_folder(d):
 
 
 tests = {'security': [
-            (sec.multi_pass, 'random_user', 'PiTH0N2012', 
-                random.randint(500, 3000), sec.fetcher('sHa512'))], 
+            (sec.multi_pass, repr('ef2eb3e42c6308b6e9adc4f06c3ef254357d1043eee' 
+                             '205d2a1a652058366a14f84d4eb163c8ef952e8f31997798' 
+                             '0133400d3d0692eb0888b4d7c9b76b862f5db'), 
+             'random_user', 'PiTH0N2012', 1000, sec.fetcher('sHa512'))], 
         'math_utils': [
-            (m_u.convert_to_base, -100, 10), 
-            (m_u.convert_to_base, 340.4, 30), 
-            (m_u.convert_to_base, 560, 4.3), 
-            (m_u.sgp_with_base, 534, 10), 
-            (m_u.sgp_with_base, 353, 19), 
-            (m_u.legs, 2), 
-            (m_u.legs, random.randint(10, 30), (16, 9)), 
-            (m_u.euclidean_dist, (3, 6), (5, 8)),
-            (m_u.euclidean_dist, (9, 2), (7, 1)),
-            (m_u.pascals_triangle, 5),
-            (m_u.polyroots, 1, 2, 'x**3 - 2*x**2 - x + 2')
-            (m_u.factor, 5),
-            (m_u.factor, 34),
-            (m_u.factor, 132),
-            (m_u.factors,  36)],
-        'file_utils': [(f_u.size_of_dir, rand_folder(os.environ['HOME']))],
+            (m_u.convert_to_base, repr('-100'), -100, 10), 
+            (m_u.convert_to_base, repr('ba'), 340.4, 30), 
+            (m_u.convert_to_base, repr('20300'), 560, 4.3), 
+            (m_u.sgp_with_base, repr(3), 534, 10), 
+            (m_u.sgp_with_base, repr(2), 353, 19), 
+            (m_u.legs, repr((1.414213562373095, 1.414213562373095)), 2), 
+            (m_u.legs, repr((11.33048198261914, 6.373396115223267)), 13, 
+             (16, 9)), 
+            (m_u.euclidean_dist, repr(2.8284271247461903), (3, 6), (5, 8)),
+            (m_u.euclidean_dist, repr(2.23606797749979), (9, 2), (7, 1)),
+            (m_u.pascals_triangle, repr([[1], [1, 1], [1, 2, 1], [1, 3, 3, 1], 
+                                        [1, 4, 6, 4, 1]]), 
+             5),
+            (m_u.polyroots, repr(set([1, 2, -1])), 1, 2, 
+             'x**3 - 2*x**2 - x + 2'),
+            (m_u.factor, repr([]), 5),
+            (m_u.factor, repr([2, 17]), 34),
+            (m_u.factor, repr([2, 2, 3, 11]), 132),
+            (m_u.factors, repr(set([1, 2, 3, 4, 6, 9, 12, 18, 36])),  36)],
+        'file_utils': [(f_u.size_of_dir, 'a number depending upon the folder ' 
+                                         'chosen; check your FS to determine ' 
+                                         'accuracy', 
+                        rand_folder(os.environ['HOME']))],
         'iter_utils': [
-            (i_u.replace_many, 'quantum_junk10', 
-                {'1': '', '0': 'o', '_': ' '}), 
-            (i_u.replace_many, 'quantum_junk10', {'a': '0', 'b': '1'}, True), 
-            (i_u.remove_many, 'quantum_junk10', '_0123456789'), 
-            (i_u.keep_many, 'quantum_junk10', 'abcdefghijklmnopq'), 
-            (i_u.section, 'quantum_junk10', 3),
-            (i_u.flatten, [1, [2, [3]], 4], 1)]
+            (i_u.replace_many, repr('quantum junko'), 'quantum_junk10', 
+             {'1': '', '0': 'o', '_': ' '}), 
+            (i_u.replace_many, repr('quantum_junkba'), 'quantum_junk10', 
+             {'a': '0', 'b': '1'}, True), 
+            (i_u.remove_many, repr('quantumjunk'), 'quantum_junk10', 
+             '_0123456789'), 
+            (i_u.keep_many, repr('qanmjnk'), 'quantum_junk10', 
+             'abcdefghijklmnopq'), 
+            (i_u.section, repr(['qua', 'ntu', 'm_j', 'unk', '10']), 
+             'quantum_junk10', 3),
+            (i_u.flatten, repr([1, 2, [3], 4]), [1, [2, [3]], 4], 1)]
         }
 
 
@@ -59,7 +72,7 @@ def form(test):
     shell = '%s.%s(%s)'
     com_module = test[0].__module__
     com_name = test[0].__name__
-    argstring = ', '.join(repr(arg) for arg in test[1:])
+    argstring = ', '.join(repr(arg) for arg in test[2:])
     return shell % (com_module, com_name, argstring)
 
 
@@ -67,9 +80,10 @@ def main(tests = tests):
     for m in sorted(tests):
         Print('-' * 80, '-- Testing %s --' % m, '-' * 80, sep = '\n')
         for t in tests[m]:
-            Print('>>>', form(t))
-            Print(t[0](*t[1:]))
-        Print()
+            Print('>>> # Should be', t[1])
+            Print('...', form(t))
+            Print(repr(t[0](*t[2:])))
+            Print()
 
 
 if __name__ == '__main__':

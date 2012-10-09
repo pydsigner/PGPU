@@ -25,10 +25,10 @@ def parse_conf(lines):
     v0.2.0+             --> pydsigner
     '''
     dt = {}
-    for l in lines:
-        if l.startswith('#'):
+    for L in lines:
+        if L.startswith('#'):
             continue
-        p = l.split(None, 1)
+        p = L.split(None, 1)
         dt[p[0]] = p[1].split(', ')
     return dt
 

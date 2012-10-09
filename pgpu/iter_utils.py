@@ -33,9 +33,9 @@ def replace_many(s, d, inverse=False):
     return s
 
 
-def remove_many(s, l):
+def remove_many(s, L):
     '''
-    Goes through every item of @l and removes their occurences in @s.
+    Goes through every item of @L and removes their occurences in @s.
     
     >>> remove_many('quantum_junk10', '_0123456789')
     'quantumjunk'
@@ -44,14 +44,14 @@ def remove_many(s, l):
     v0.2.0+             --> pydsigner
     '''
     d = {}
-    for i in l:
+    for i in L:
         d[i] = ''
     return replace_many(s, d)
 
 
-def keep_many(s, l):
+def keep_many(s, L):
     '''
-    Goes through @s and removes all chars that are not in @l.
+    Goes through @s and removes all chars that are not in @L.
     
     >>> keep_many('quantum_junk10', 'abcdefghijklmnopq')
     'qanmjnk'
@@ -59,7 +59,7 @@ def keep_many(s, l):
     AUTHORS:
     v0.2.0+             --> pydsigner
     v0.3.7+             --> ffao/pydsigner'''
-    return ''.join(c for c in s if c in l)
+    return ''.join(c for c in s if c in L)
 
 
 def section(itr, size):
@@ -99,7 +99,7 @@ def flatten(obj, levels=-1):
     Flattens object @obj into a list. If an iterator, @obj will be recursed 
     up @levels times if @levels is not negative, else until there are no more 
     nested lists. If the recursion limit has been reached, a list() version of 
-    @obj will be returned. If @obj is not an iterator, a list containing @obj 
+    @obj will be returned. If @obj is not an iterable, a list containing @obj 
     will be returned.
     
     >>> flatten(1)
@@ -118,10 +118,10 @@ def flatten(obj, levels=-1):
     '''
     if hasattr(obj, '__iter__'):
         if levels == 0:
-            l = list(obj)
+            L = list(obj)
         else:
             lvl = levels - 1 if levels > 0 else levels
-            l = sum((flatten(sl, lvl) for sl in obj), [])
+            L = sum((flatten(sl, lvl) for sl in obj), [])
     else:
-        l = [obj]
-    return l
+        L = [obj]
+    return L

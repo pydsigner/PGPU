@@ -5,12 +5,12 @@ AUTHORS:
 v0.4.5              --> pydsigner
 '''
 
-from pgpu.compatibility import range
+from .compatibility import range
 
 try:
-    import pgpu.tkinter2x as tk
-    from pgpu.tkinter2x.constants import *
-    from pgpu.tkinter2x.simpledialog import askstring
+    from . import tkinter2x as tk
+    from .tkinter2x.constants import *
+    from .tkinter2x.simpledialog import askstring
 except ImportError:
     # No tkinter, don't use the GUIDict!
     pass

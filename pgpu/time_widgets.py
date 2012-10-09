@@ -5,8 +5,8 @@ AUTHORS:
 v0.2.2+                --> pydsigner
 '''
 
-import tkinter2x as tk
-from tkinter2x.constants import *
+from . import tkinter2x as tk
+from .tkinter2x.constants import *
 import time
 import datetime
 
@@ -64,10 +64,7 @@ class BasicChronograph(tk.Label):
         self.on = False
     
     def switch(self):
-        if self.on:
-            self.on = False
-        else:
-            self.on = True
+        self.on = not self.on
     
     def reset(self):
         self.on = False
@@ -118,10 +115,7 @@ class Chronograph(tk.Frame):
         self.reset.pack(side=RIGHT)
     
     def flip(self):
-        if self.chron.on:
-            self.stopstart['text'] = 'start'
-        else:
-            self.stopstart['text'] = 'stop'
+        self.stopstart['text'] = 'start' if self.chron.on else 'stop'
         self.chron.switch()
     
     def reset(self):

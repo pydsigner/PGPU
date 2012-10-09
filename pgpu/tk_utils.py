@@ -5,15 +5,16 @@ AUTHORS:
 v0.2.0+             --> pydsigner
 '''
 
-from tkinter2x.font import families
-import tkinter2x as tk
-from tkinter2x.constants import *
-import tkinter2x.scrolledtext as stext
+from . import tkinter2x as tk
+from .tkinter2x.font import families
+from .tkinter2x.constants import *
+from .tkinter2x import scrolledtext as stext
+
 
 OLDSTYLE_FONTS = ['ShadowedBlack', 'Benighted', 'Old English Text']
 FLOWING_FONTS = ['Palace Script MT', 'Bradley Hand ITC', 'French Script',
-        'French Script MT', 'Edwardian Script ITC', 'Blackadder ITC',
-        'Script Bold', 'Script MT Bold', 'Zola', 'Vivaldi']
+                 'French Script MT', 'Edwardian Script ITC', 'Blackadder ITC',
+                 'Script Bold', 'Script MT Bold', 'Zola', 'Vivaldi']
 SEMIFLOWING_FONTS = ['URW Chancery L']
 SANS_FONTS = ['Liberation Sans', 'FreeSans', 'DejaVu Sans', 'Sans']
 MONO_FONTS = ['Liberation Mono', 'DejaVu Sans Mono', 'Monospace', 'FreeMono']
@@ -110,8 +111,8 @@ class Console(TextPlus):
     
     def get_fresh(self):
         '''
-        Returns True if the content of the widget has changed since the last 
-        refresh(), otherwise it returns False.
+        Returns False if the content of the widget has changed since the last 
+        refresh(), otherwise it returns True.
         '''
         return self._oldcache == self.gettext()
     
@@ -169,7 +170,9 @@ class Console(TextPlus):
         self.insert(END + '-1c', data)
     
     def writelines(self, seq):
-        [self.write(line) for line in seq]
+        for line in seq:
+            self.write(line)
+    
     xwritelines = writelines
 
 
@@ -191,7 +194,7 @@ class RadioBar(tk.Frame):
     v0.2.0+             --> pydsigner/Mark Lutz
     '''
     def __init__(self, parent=None, default=None, picks=[], side=LEFT, 
-            anchor=W):
+                 anchor=W):
         '''
         Pass the desired master to @parent. If @default is not None, the radio 
         bar will initialized to it. @side and @anchor will be passed to the 
@@ -216,7 +219,7 @@ class FontDialog(tk.Toplevel):
     AUTHORS:
     v0.2.2+             --> pydsigner
     '''
-    def __init__(self, defaults = ('courier', 11, 'normal'), **kw):
+    def __init__(self, defaults=('courier', 11, 'normal'), **kw):
         '''
         @default determines the default font. **@kw is passed to the 
         Toplevel() providing the window the font picker is displayed in.
@@ -226,44 +229,50 @@ class FontDialog(tk.Toplevel):
         self.title('Choose Font')
         self.protocol('WM_DELETE_WINDOW', self.cancel)
         
-        self.preview = tk.Label(self, font=('courier', 15, 'bold'), text='Font')
+        self.preview = tk.Label(self, font=('courier', 15, 'bold'), 
+                                text='Font')
         self.preview.pack(side=TOP)
         
         buttonbar = tk.Frame(self)
+        
         tk.Button(buttonbar, text='Ok', command=self.ok).pack(side=LEFT)
         tk.Button(buttonbar, text='Cancel', command=self.cancel
-                ).pack(side=RIGHT)
+                  ).pack(side=RIGHT)
+        
         buttonbar.pack(side=BOTTOM)
         
         self.font = tk.StringVar()
         self.bold = tk.IntVar()
+        self.size = tk.IntVar()
+        self.italic = tk.IntVar()
         
+        self.font.set(defaults[0])
+        self.size.set(defaults[1])
         if 'bold' in defaults[2]:
             self.bold.set(1)
-        self.italic = tk.IntVar()
         if 'italic' in defaults[2]:
             self.italic.set(1)
         
         modbar = tk.Frame(self)
-        mleft = tk.Frame(modbar)
-        self.size = tk.IntVar()
-        self.size.set(defaults[1])
         
-        tk.OptionMenu(mleft, self.size, 
-                7, 8, 9, 10, 11, 12, 13, 14, 16, 18, 20, 22, 24).pack(side=TOP)
+        mleft = tk.Frame(modbar)
+        
+        tk.OptionMenu(mleft, self.size, 7, 8, 9, 10, 11, 12, 13, 14, 16, 18, 
+                      20, 22, 24).pack(side=TOP)
         tk.Checkbutton(mleft, variable=self.bold).pack(side=TOP)
         tk.Checkbutton(mleft, variable=self.italic).pack(side=TOP)
         mleft.pack(side=LEFT)
+        
         mright = tk.Frame(modbar)
         tk.Label(mright, text='size').pack(side=TOP)
         tk.Label(mright, text='bold').pack(side=TOP)
         tk.Label(mright, text='italic').pack(side=TOP)
         mright.pack(side=LEFT)
+        
         modbar.pack(side=RIGHT)
+        
         fontbar = tk.Frame(self)
-        self.font = tk.StringVar()
         tk.OptionMenu(fontbar, self.font, *sorted(self.fonts())).pack()
-        self.font.set(defaults[0])
         fontbar.pack(side=LEFT)
         self.update()
         self.grab_set()
@@ -274,15 +283,15 @@ class FontDialog(tk.Toplevel):
         self.preview['font'] = self.getfont()
         self.after(100, self.update)
     
-    def getfont(self):
+    def get_font(self):
         modifiers = ('bold ' if self.bold.get() else '' + 
-                'italic' if self.italic.get() else '').rstrip()
+                     'italic' if self.italic.get() else '').rstrip()
         if not modifiers:
             modifiers = 'normal'
         return (self.font.get(), self.size.get(), modifiers)
     
     def ok(self):
-        self.result = self.getfont()
+        self.result = self.get_font()
         self.destroy()
     
     def cancel(self):
@@ -290,10 +299,7 @@ class FontDialog(tk.Toplevel):
         self.destroy()
     
     def fonts(self):
-        res  = []
-        for font in families(self):
-            res.append(font.lower())
-        return res
+        return [font.lower() for font in families(self)]
 
 
 def ask_font(*args, **kw):

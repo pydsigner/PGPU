@@ -9,26 +9,27 @@ import hashlib
 import base64
 import zlib
 import binascii
-
-try:
-    import urllib.parse as urler
-except ImportError:
-    import urllib as urler
-
 import random
 import math
 import time
 import decimal
 from decimal import Decimal as dec
 import string
+try:
+    import urllib.parse as urler
+except ImportError:
+    import urllib as urler
 
 from . import iter_utils
-from pgpu.compatibility import str, range, chr
-from pgpu.math_utils import sane_hex
+from .compatibility import str, range, chr
+from .math_utils import sane_hex
 
 
-__all__ = ['rand_key', 'multi_pass', 'encoder_classes', 'fetcher']
-encoder_classes = {}
+__all__ = ['rand_key', 'multi_pass', 'encoder_classes', 'fetcher', 'Triplets', 
+           'PD2', 'PD3', 'PD4', 'PD5', 'PD6', 'PD7', 'PD8', 'PD9', 'PD10', 
+           'PD11', 'PD12', 'PD13', 'PD14', 'RD', 'SHA1', 'SHA224', 'SHA256', 
+           'SHA384', 'SHA512', 'MD5', 'Base16', 'Base32', 'Base64', 'Hex', 
+           'HQX', 'UU', 'URL', 'HTML', 'CRC32', 'Adler32']
 
 
 class Triplets(object):
@@ -44,9 +45,6 @@ class Triplets(object):
     def decode(self, s):
         return ''.join([chr(int(c) // 3) for c in s.split('.')])
 
-__all__.append('Triplets')
-encoder_classes['triplets'] = Triplets
-
 
 class PD2(object):
     '''
@@ -61,12 +59,9 @@ class PD2(object):
     max_len = 30
     
     def encode(self, s):
-        l = int(len(s) * self.mag_num)
-        res = [str(ord(c) * l) for c in s]
+        L = int(len(s) * self.mag_num)
+        res = [str(ord(c) * L) for c in s]
         return ''.join(res)[:self.max_len]
-
-__all__.append('PD2')
-encoder_classes['pd2'] = PD2
 
 
 class PD3(object):
@@ -82,15 +77,12 @@ class PD3(object):
     max_len = 64
     
     def encode(self, s):
-        l = int(dec(len(s)) * self.mag_num)
-        res = [str(ord(c) * l) for c in s]
+        L = int(dec(len(s)) * self.mag_num)
+        res = [str(ord(c) * L) for c in s]
         # how slow will this make this hasher?
         decimal.getcontext().prec = 77
         d = dec(''.join(res)).rotate(-1)
         return sane_hex(d)[:self.max_len]
-
-__all__.append('PD3')
-encoder_classes['pd3'] = PD3
 
 
 class PD4(object):
@@ -107,15 +99,12 @@ class PD4(object):
     max_len = 96
     
     def encode(self, s):
-        l = int(dec(len(s)) * self.mag_num)
-        res = ''.join([str(hash(c) * l) for c in s]).replace('-', '56')
+        L = int(dec(len(s)) * self.mag_num)
+        res = ''.join([str(hash(c) * L) for c in s]).replace('-', '56')
         # Is speed going to be a problem here?
         decimal.getcontext().prec = 116
         d = dec(res).rotate(-2)
         return sane_hex(d)[:self.max_len]
-
-__all__.append('PD4')
-encoder_classes['pd4'] = PD4
 
 
 class PD5(object):
@@ -131,12 +120,9 @@ class PD5(object):
     mag_num = int(dec(40).exp())
     
     def encode(self, s):
-        l = self.mag_num * len(s)
-        r = int(str(hash(s) * l).replace('-', str(self.max_len)))
+        L = self.mag_num * len(s)
+        r = int(str(hash(s) * L).replace('-', str(self.max_len)))
         return sane_hex(r)[:self.max_len]
-
-__all__.append('PD5')
-encoder_classes['pd5'] = PD5
 
 
 class PD6(object):
@@ -157,14 +143,11 @@ class PD6(object):
         z = len(s) // self.split_size
         z += 1 if len(s) % self.split_size else 0
         bitesize = self.max_len * 2 * self.split_size
-        sec = pgpu.section(s[:bitesize], self.split_size)
-        l = self.mag_num * z
-        r = int(''.join([str(hash(s) * l).replace('-', str(self.dash)
+        sec = iter_utils.section(s[:bitesize], self.split_size)
+        L = self.mag_num * z
+        r = int(''.join([str(hash(s) * L).replace('-', str(self.dash)
                 ) for s in sec]))
         return sane_hex(r)[:self.max_len]
-
-__all__.append('PD6')
-encoder_classes['pd6'] = PD6
 
 
 class PD7(PD6):
@@ -181,9 +164,6 @@ class PD7(PD6):
     split_size = 4
     dash = mag_num // 5
 
-__all__.append('PD7')
-encoder_classes['pd7'] = PD7
-
 
 class PD8(PD6):
     '''
@@ -198,9 +178,6 @@ class PD8(PD6):
     mag_num = 57
     split_size = 3
     dash = (mag_num * 6) // 19
-
-__all__.append('PD8')
-encoder_classes['pd8'] = PD8
 
 
 class PD9(object):
@@ -219,15 +196,12 @@ class PD9(object):
         z = len(s) // self.split_size
         z += 1 if len(s) % self.split_size else 0
         bitesize = self.max_len * 2 * self.split_size
-        sec = pgpu.section(s[:bitesize], self.split_size)
-        l = self.mag_num * z
-        v = ''.join([str(hash(s[bitesize:]))] + [str(hash(s) * l
-                ).replace('-', self.dash) for s in sec])
-        r = int(v) # int(str(hash(s[bitesize:])).replace('-', self.dash) + v)
+        sec = iter_utils.section(s[:bitesize], self.split_size)
+        L = self.mag_num * z
+        v = ''.join([str(hash(s[bitesize:]))] + 
+                    [str(hash(s) * L).replace('-', self.dash) for s in sec])
+        r = int(v)
         return sane_hex(r)[:self.max_len]
-
-__all__.append('PD9')
-encoder_classes['pd9'] = PD9
 
 
 class PD10(PD9):
@@ -242,9 +216,6 @@ class PD10(PD9):
     split_size = 4
     dash = str(mag_num // 4)
 
-__all__.append('PD10')
-encoder_classes['pd10'] = PD10
-
 
 class PD11(PD9):
     '''
@@ -257,9 +228,6 @@ class PD11(PD9):
     mag_num = int(dec(43).exp()) * 9
     split_size = 3
     dash = str(int(dec(31).exp()))
-
-__all__.append('PD11')
-encoder_classes['pd11'] = PD11
 
 
 class PD12(object):
@@ -278,21 +246,18 @@ class PD12(object):
         z = len(s) // self.split_size
         z += 1 if len(s) % self.split_size else 0
         bitesize = self.max_len * 2 * self.split_size
-        sec = pgpu.section(s[:bitesize], self.split_size)
+        sec = iter_utils.section(s[:bitesize], self.split_size)
         end = s[bitesize:]
-        end36 = pgpu.keep_many(end, string.ascii_letters + string.digits)
+        end36 = iter_utils.keep_many(end, string.ascii_letters + string.digits)
         q = int(end36, 36) if end36 else 0
         ds = int(self.dash)
         if q < ds * 2 // 3 or not q or q < 0:
             q = ds
-        l = self.mag_num * z * q
-        v = ''.join([str(hash(end))] + [str(hash(s) * l
+        L = self.mag_num * z * q
+        v = ''.join([str(hash(end))] + [str(hash(s) * L
                 ).replace('-', self.dash) for s in sec])
         r = int(v)
         return sane_hex(r)[:self.max_len]
-
-__all__.append('PD12')
-encoder_classes['pd12'] = PD12
 
 
 class PD13(PD12):
@@ -307,9 +272,6 @@ class PD13(PD12):
     split_size = 4
     dash = str(int(dec(13).exp()))
 
-__all__.append('PD13')
-encoder_classes['pd13'] = PD13
-
 
 class PD14(PD12):
     '''
@@ -322,9 +284,6 @@ class PD14(PD12):
     mag_num = 5
     split_size = 3
     dash = str(int(dec(17).exp()))
-
-__all__.append('PD14')
-encoder_classes['pd14'] = PD14
 
 
 class RD(object):
@@ -344,9 +303,6 @@ class RD(object):
         random.seed(s)
         return str(random.randint(self.small, self.big))
 
-__all__.append('RD')
-encoder_classes['rd'] = RD
-
 
 class SHA1(object):
     '''
@@ -355,9 +311,6 @@ class SHA1(object):
     '''
     def encode(self, s):
         return hashlib.sha1(s).hexdigest()
-
-__all__.append('SHA1')
-encoder_classes['sha1'] = SHA1
 
 
 class SHA224(object):
@@ -368,9 +321,6 @@ class SHA224(object):
     def encode(self, s):
         return hashlib.sha224(s).hexdigest()
 
-__all__.append('SHA224')
-encoder_classes['sha224'] = SHA224
-
 
 class SHA256(object):
     '''
@@ -379,9 +329,6 @@ class SHA256(object):
     '''
     def encode(self, s):
         return hashlib.sha256(s).hexdigest()
-
-__all__.append('SHA256')
-encoder_classes['sha256'] = SHA256
 
 
 class SHA384(object):
@@ -392,9 +339,6 @@ class SHA384(object):
     def encode(self, s):
         return hashlib.sha384(s).hexdigest()
 
-__all__.append('SHA384')
-encoder_classes['sha384'] = SHA384
-
 
 class SHA512(object):
     '''
@@ -404,9 +348,6 @@ class SHA512(object):
     def encode(self, s):
         return hashlib.sha512(s).hexdigest()
 
-__all__.append('SHA512')
-encoder_classes['sha512'] = SHA512
-
 
 class MD5(object):
     '''
@@ -415,9 +356,6 @@ class MD5(object):
     '''
     def encode(self, s):
         return hashlib.md5(s).hexdigest()
-
-__all__.append('MD5')
-encoder_classes['md5'] = MD5
 
 
 class Base16(object):
@@ -430,9 +368,6 @@ class Base16(object):
     def decode(self, s):
         return base64.b16decode(s)
 
-__all__.append('Base16')
-encoder_classes['base16'] = Base16
-
 
 class Base32(object):
     '''
@@ -443,9 +378,6 @@ class Base32(object):
         return base64.b32encode(s)
     def decode(self, s):
         return base64.b32decode(s)
-
-__all__.append('Base32')
-encoder_classes['base32'] = Base32
 
 
 class Base64(object):
@@ -458,9 +390,6 @@ class Base64(object):
     def decode(self, s):
         return base64.b64decode(s)
 
-__all__.append('Base64')
-encoder_classes['base64'] = Base64
-
 
 class Hex(object):
     '''
@@ -471,9 +400,6 @@ class Hex(object):
         return binascii.b2a_hex(s)
     def decode(self, s):
         return binascii.a2b_hex(s)
-
-__all__.append('Hex')
-encoder_classes['hex'] = Hex
 
 
 class HQX(object):
@@ -486,9 +412,6 @@ class HQX(object):
     def decode(self, s):
         return binascii.a2b_hqx(s)[0]
 
-__all__.append('HQX')
-encoder_classes['hqx'] = HQX
-
 
 class UU(object):
     '''
@@ -499,9 +422,6 @@ class UU(object):
         return binascii.b2a_uu(s)
     def decode(self, s):
         return binascii.a2b_uu(s)
-
-__all__.append('UU')
-encoder_classes['uu'] = UU
 
 
 class URL(object):
@@ -514,9 +434,6 @@ class URL(object):
     def decode(self, s):
         return urler.unquote(s)
 
-__all__.append('URL')
-encoder_classes['url'] = URL
-
 
 class HTML(object):
     '''
@@ -526,12 +443,9 @@ class HTML(object):
     conv_dict = {'<': '&#60;', '>': '&#62;', '"': '&#34;', '&': '&#38;'}
     
     def encode(self, s):
-        return pgpu.replace_many(s, self.conv_dict)
+        return iter_utils.many(s, self.conv_dict)
     def decode(self, s):
-        return pgpu.replace_many(s, self.conv_dict, True)
-
-__all__.append('HTML')
-encoder_classes['html'] = HTML
+        return iter_utils.many(s, self.conv_dict, True)
 
 
 class CRC32(object):
@@ -542,9 +456,6 @@ class CRC32(object):
     def encode(self, s):
         return zlib.crc32(s)
 
-__all__.append('CRC32')
-encoder_classes['crc32'] = CRC32
-
 
 class Adler32(object):
     '''AUTHORS:
@@ -552,8 +463,14 @@ class Adler32(object):
     def encode(self, s):
         return zlib.adler32(s)
 
-__all__.append('Adler32')
-encoder_classes['adler32'] = Adler32
+
+encoder_classes = dict(triplets=Triplets, pd2=PD2, pd3=PD3, pd4=PD4, pd5=PD5, 
+                       pd6=PD6, pd7=PD7, pd8=PD8, pd9=PD9, pd10=PD10, 
+                       pd11=PD11, pd12=PD12, pd13=PD13, pd14=PD14, rd=RD, 
+                       sha1=SHA1, sha224=SHA224, sha256=SHA256, sha384=SHA384, 
+                       sha512=SHA512, md5=MD5, base16=Base16, base32=Base32, 
+                       base64=Base64, hex=Hex, hqx=HQX, uu=UU, url=URL, 
+                       html=HTML, crc32=CRC32, adler32=Adler32)
 
 
 def fetcher(encoder):
@@ -564,16 +481,16 @@ def fetcher(encoder):
     return encoder_classes[encoder.lower()]()
 
 
-def rand_key(l=10):
+def rand_key(L=10):
     '''
     AUTHORS:
     v0.2.0+             --> pydsigner
     '''
     res = ''
-    while len(res) < l:
+    while len(res) < L:
         v = str(math.log((random.randint(1, 33) * math.pi) ** 2))
-        res += pgpu.remove_many(v, 'e-.')
-    return res[:l]
+        res += iter_utils.remove_many(v, 'e-.')
+    return res[:L]
 
 
 def multi_pass(user, pswd, times=1000, hasher=SHA512()):
@@ -581,6 +498,6 @@ def multi_pass(user, pswd, times=1000, hasher=SHA512()):
     AUTHORS:
     v0.2.0+             --> pydsigner
     '''
-    for i in range(0, times):
+    for i in range(times):
         pswd = hasher.encode(pswd + user + str(i))
     return pswd
