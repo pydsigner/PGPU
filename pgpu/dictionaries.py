@@ -1,9 +1,9 @@
-'''
+"""
 A set of dict()-like classes with differing features.
 
 AUTHORS:
 v0.4.5              --> pydsigner
-'''
+"""
 
 from .compatibility import range
 
@@ -17,7 +17,7 @@ except ImportError:
 
 
 class SortedDict(object):
-    '''
+    """
     A sorted dictionary that is implemented as a merger of a dict() and a 
     list(). It exposes more of the dict() style via overloading but the list() 
     style is also accessible via named methods. When in doubt about which 
@@ -27,15 +27,16 @@ class SortedDict(object):
     
     AUTHORS:
     v0.4.5+             --> pydsigner
-    '''
+    """
+    
     def __init__(self, *args):
-        '''
+        """
         SortedDict([(key_0, value_0), (key_1, value_1)..., (key_n, value_n)])
         SortedDict([key_0, key_1..., key_n], [value_0, value_1..., value_n])
         SortedDict([key_0, key_1..., key_n], default)
         SortedDict((key_0, value_0), (key_1, value_1)..., (key_n, value_n))
         SortedDict()
-        '''
+        """
         self.data = []
         self.keydict = {}
         if len(args) == 1:
@@ -53,15 +54,15 @@ class SortedDict(object):
                 self._add(key, value)
     
     def __delitem__(self, key):
-        '''
+        """
         Delete item @key from the dictionary.
-        '''
+        """
         del self.keydict[key]
     
     def __iter__(self):
-        '''
+        """
         Returns an iterator over the dictionary\'s keys.
-        '''
+        """
         return iter(self.keys())
     
     def _content_rep(self):
@@ -72,11 +73,11 @@ class SortedDict(object):
         return 'SortedDict(%s)' % self._content_rep()
     
     def get(self, key, *arg):
-        '''
+        """
         get(key, [default])
         Get the value for @key from the dictionary. If @key is not in the 
         dictionary and @default is supplied, return @default.
-        '''
+        """
         if len(arg) > 1:
             raise TypeError('Expected at most 2 arguments, got %s' 
                              % (len(arg) + 1))
@@ -88,9 +89,9 @@ class SortedDict(object):
     __getitem__ = get
     
     def set(self, key, value):
-        '''
+        """
         Sets the value for @key to @value.
-        '''
+        """
         k = self.keydict.get(key)
         if k == None:
             self._add(key, value)
@@ -99,23 +100,25 @@ class SortedDict(object):
     __setitem__ = set
     
     def get_at(self, index):
-        '''
+        """
         Get the value at @index. Probably quite slow, as the list() side of 
         the dictionary is not favored.
-        '''
+        """
         return self.data[self.keydict[self.keys()[index]]]
     
+    
     def set_at(self, index, value):
-        '''
+        """
         Set the value at @index to @value. Probably quite slow, as the 
         list() side of the dictionary is not favored.
-        '''
+        """
         self.data[self.keydict[self.keys()[index]]] = value
+    
     def delete_at(self, index):
-        '''
+        """
         Delete the value at index.Probably quite slow, as the list() side 
         of the dictionary is not favored.
-        '''
+        """
         for p in self.keydict.items():
             if p[1] == index:
                 the_pair = p
@@ -130,9 +133,9 @@ class SortedDict(object):
         return zip(self.keys(), self.values())
     
     def rebuild(self):
-        '''
+        """
         Remove zombie data from the data store to free up memory.
-        '''
+        """
         vals = self.keydict.values()
         slen = len(self.data)
         for i, v in enumerate(self.data):
@@ -151,12 +154,13 @@ class SortedDict(object):
 
 
 class UpdatingDict(dict):
-    '''
+    """
     A dictionary that will notify about changes.
     
     AUTHORS:
     v0.4.5+             --> pydsigner
-    '''
+    """
+    
     def __init__(self, *args, **kw):
         dict.__init__(self, *args, **kw)
         self.n = []
@@ -171,17 +175,17 @@ class UpdatingDict(dict):
     __setitem__ = set
     
     def add_notify(self, obj):
-        '''
+        """
         Add @obj to the notification list.
-        '''
+        """
         if obj not in self.n:
             self.n.append(obj)
     
     def del_notify(self, obj):
-        '''
+        """
         Remove @obj from the notification list. Will raise AssertionError if 
         @obj is not in the notification list.
-        '''
+        """
         assert obj in self.n, (
                 'Cannot remove objects from notification list' + 
                 ' that are not in it!')
@@ -189,14 +193,15 @@ class UpdatingDict(dict):
 
 
 class GUIDictItem(tk.Frame):
-    '''
+    """
     A basic item for the GUIDict() graphical implementation of a dictionary. 
     NB: This item converts everything to strings, so be careful where you use 
     it.
     
     AUTHORS:
     v0.4.5+             --> pydsigner
-    '''
+    """
+    
     def __init__(self, master, key, value, *args, **kw):
         tk.Frame.__init__(self, master, *args, **kw)
         self.var = tk.StringVar()
@@ -223,12 +228,13 @@ class GUIDictItem(tk.Frame):
 
 
 class GUIDict(tk.Frame):
-    '''
+    """
     A basic GUI implementation of a dictionary.
     
     AUTHORS:
     v0.4.5+             --> pydsigner
-    '''
+    """
+    
     item = GUIDictItem
     def __init__(self, master, dictobj=UpdatingDict(), *args, **kw):
         tk.Frame.__init__(self, master, *args, **kw)

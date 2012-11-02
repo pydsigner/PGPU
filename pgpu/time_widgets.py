@@ -1,9 +1,9 @@
-'''
+"""
 Tkinter time widgets.
 
 AUTHORS:
 v0.2.2+                --> pydsigner
-'''
+"""
 
 from . import tkinter2x as tk
 from .tkinter2x.constants import *
@@ -12,17 +12,18 @@ import datetime
 
 
 class DigitalClock(tk.Label):
-    '''
+    """
     A digital clock display based on Label().
     
     AUTHORS:
     v0.2.2+             --> pydsigner
-    '''
+    """
+    
     def __init__(self, master=None, time_format='%H:%M:%S', **kw):
-        '''
+        """
         @time_format is passed to time.strftime() to obtain the displayed 
         time look. **@kw is passed to the Label() constructor.
-        '''
+        """
         self.time_format = time_format
         kw['text'] = self.givetime()
         tk.Label.__init__(self, master, **kw)
@@ -40,16 +41,17 @@ class DigitalClock(tk.Label):
 
 
 class BasicChronograph(tk.Label):
-    '''
+    """
     A basic chronograph widget that must be code controlled.
     
     AUTHORS:
     v0.2.2+             --> pydsigner
-    '''
+    """
+    
     def __init__(self, master=None, **kw):
-        '''
+        """
         **@kw is passed to the Label() constructor.
-        '''
+        """
         kw['text'] = '00:00:00.00'
         tk.Label.__init__(self, master, **kw)
         self.reset()
@@ -90,17 +92,18 @@ class BasicChronograph(tk.Label):
 
 
 class Chronograph(tk.Frame):
-    '''
+    """
     A more advanced chronograph using BasicChronograph(). This one has 
     external controls.
     
     AUTHORS:
     v0.2.2+             --> pydsigner
-    '''
+    """
+    
     def __init__(self, master=None, **kw):
-        '''
+        """
         **@kw is passed to the BasicChronograph() constructor.
-        '''
+        """
         tk.Frame.__init__(self, master)
         
         self.chron = BasicChronograph(self, **kw)

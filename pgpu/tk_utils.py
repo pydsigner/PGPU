@@ -1,9 +1,9 @@
-'''
+"""
 Tkinter widgets and helper functions.
 
 AUTHORS:
 v0.2.0+             --> pydsigner
-'''
+"""
 
 from . import tkinter2x as tk
 from .tkinter2x.font import families
@@ -22,13 +22,13 @@ ALLCAP_FONTS = ['Algerian', 'Castellar']
 
 
 def best_font(master, fonts=[]):
-    '''
+    """
     Returns the first font name in @fonts that tkinter can find. Pass a Tk() 
     instance to @master.
     
     AUTHORS:
     v0.2.0+             --> pydsigner
-    '''
+    """
     sysfonts = families(root=master)
     for font in fonts:
         if font in sysfonts:
@@ -36,13 +36,14 @@ def best_font(master, fonts=[]):
 
 
 class SList(tk.Frame):
-    '''
+    """
     A basic scrolling list display based on Mark Lutz's ScrolledList() widget 
     from Programming Python, 3rd edition.
     
     AUTHORS:
     v1.0.2+             --> pydsigner/Mark Lutz
-    '''
+    """
+    
     def __init__(self, master):
         tk.Frame.__init__(self, master)
         
@@ -58,15 +59,15 @@ class SList(tk.Frame):
         self.listbox = l
     
     def set(self, l):
-        '''
+        """
         Fill the listbox.
-        '''
+        """
         self.listbox.delete(0, END)
         self.listbox.insert(END, *l)
 
 
 class TextPlus(tk.Text):
-    '''
+    """
     A version of Text() with additional methods for getting, setting, and 
     clearing the text contained by it. The afore mentioned methods are based on
     some from Mark Lutz's scrolledtext.ScrolledText() widget as seen in 
@@ -74,9 +75,11 @@ class TextPlus(tk.Text):
     
     AUTHORS:
     v0.4.4+             --> pydsigner/Mark Lutz
-    '''
+    """
+    
     def gettext(self):
         return self.get('1.0', END + '-1c')
+    
     def settext(self, text):
         self.clear()
         self.insert('1.0', text)
@@ -86,17 +89,17 @@ class TextPlus(tk.Text):
 
 
 class STextPlus(stext.ScrolledText, TextPlus):
-    '''
+    """
     A simple subclass of TextPlus() with scrolling.
     
     AUTHORS:
     v0.2.0+             --> pydsigner/Mark Lutz
     v0.4.4+             --> pydsigner
-    '''
+    """
 
 
 class Console(TextPlus):
-    '''
+    """
     An extension of TextPlus() widget that additionally acts like a file. 
     However, due to the implications of being editable externally e.g. by 
     someone using an interface, Console() uses a cache that must be manually 
@@ -104,28 +107,29 @@ class Console(TextPlus):
     
     AUTHORS:
     v0.4.4+             --> pydsigner
-    '''
+    """
+    
     def __init__(self, master, *args, **kw):
         TextPlus.__init__(self, master, *args, **kw)
         self.refresh()
     
     def get_fresh(self):
-        '''
+        """
         Returns False if the content of the widget has changed since the last 
         refresh(), otherwise it returns True.
-        '''
+        """
         return self._oldcache == self.gettext()
     
     def refresh():
-        '''
+        """
         Refresh the cache (equivalent to closing and opening a file).
-        '''
+        """
         self._cache = self._oldcache = self.gettext()
     
     def peek(size=-1):
-        '''
+        """
         Same as read, but does not affect the cache.
-        '''
+        """
         val = self.read(size)
         self._cache = val + self._cache
         return val
@@ -149,10 +153,10 @@ class Console(TextPlus):
             return self.read(size)
     
     def readlines(size=-1):
-        '''
+        """
         Uses .readline() to get lines; if size is positive, the total data 
         size will be roughly bounded by it.
-        '''
+        """
         res = []
         dsize = 0
         while 1:
@@ -177,29 +181,30 @@ class Console(TextPlus):
 
 
 class SConsole(stext.ScrolledText, Console):
-    '''
+    """
     A simple subclass of Console() with scrolling.
     
     AUTHORS:
     v0.4.4+             --> pydsigner
-    '''
+    """
 
 
 class RadioBar(tk.Frame):
-    '''
+    """
     A RadioBar mega widget. Borrows from Mark Lutz's demoRadio.Demo() widget 
     in Programming Python, 3rd Edition.
     
     AUTHORS:
     v0.2.0+             --> pydsigner/Mark Lutz
-    '''
+    """
+    
     def __init__(self, parent=None, default=None, picks=[], side=LEFT, 
                  anchor=W):
-        '''
+        """
         Pass the desired master to @parent. If @default is not None, the radio 
         bar will initialized to it. @side and @anchor will be passed to the 
         packer for each RadioButton() created with a value from @picks.
-        '''
+        """
         tk.Frame.__init__(self, parent)
         self.var = tk.StringVar()
         for pick in picks:
@@ -213,17 +218,18 @@ class RadioBar(tk.Frame):
 
 
 class FontDialog(tk.Toplevel):
-    '''
+    """
     A font picker megawidget.
     
     AUTHORS:
     v0.2.2+             --> pydsigner
-    '''
+    """
+    
     def __init__(self, defaults=('courier', 11, 'normal'), **kw):
-        '''
+        """
         @default determines the default font. **@kw is passed to the 
         Toplevel() providing the window the font picker is displayed in.
-        '''
+        """
         tk.Toplevel.__init__(self, **kw)
         
         self.title('Choose Font')
@@ -303,12 +309,12 @@ class FontDialog(tk.Toplevel):
 
 
 def ask_font(*args, **kw):
-    '''
+    """
     Shortcut for using FontDialog(). *@args and **@kw will be passed to the 
     FontDialog() creator.
     
     AUTHORS:
     v0.2.2+             --> pydsigner
-    '''
+    """
     return FontDialog(*args, **kw).result
 

@@ -1,11 +1,11 @@
-'''
+"""
 Utilities to work with bases, some trig utilities, a more powerful
 version of decimal.Decimal(), a Vector() class, and just some random 
 mathematicical utilities.
 
 AUTHORS:
 v0.2.0+             --> pydsigner
-'''
+"""
 
 import string
 import math
@@ -22,7 +22,7 @@ DEFAULT_REP_ORDER = string.digits + string.ascii_lowercase
 
 
 def convert_to_base(b10int, base):
-    '''
+    """
     Convert base 10 integer @b10int to base @base.
     
     >>> convert_to_base(400, "10", "9876543210")
@@ -34,7 +34,7 @@ def convert_to_base(b10int, base):
     
     AUTHORS:
     v0.2.0+             --> pydsigner
-    '''
+    """
     # We aren't going to try to convert floats. (Todo or fail?)
     uint = int(b10int)
     # We certainly aren't going to use float bases! (Fail?)
@@ -55,7 +55,7 @@ def convert_to_base(b10int, base):
 
 
 def sgp_with_base(b10int, base):
-    '''
+    """
     SGP stands for smallest greater power. This function returns and number
     so that @base to the return value (i)-th power is greater than @b10int
     and @base ** (i - 1) is not.
@@ -70,12 +70,12 @@ def sgp_with_base(b10int, base):
     AUTHORS:
     v0.2.0+             --> pydsigner
     v0.3.8+             --> ffao
-    '''
+    """
     return int(math.log(b10int, base)) + 1
 
 
 def legs(hyp, ratio=(1, 1)):
-    '''
+    """
     Calculates the leg lengths of a triangle with a hypotenuse of @hyp where
     the side length ratio is @ratio. Nice for calculating screen dimensions.
     
@@ -84,7 +84,7 @@ def legs(hyp, ratio=(1, 1)):
     
     AUTHORS:
     v0.2.0+             --> pydsigner
-    '''
+    """
     r = float(ratio[0]) / ratio[1]
     L2 = hyp / math.sqrt(r ** 2 + 1)
     L1 = L2 * r
@@ -92,7 +92,7 @@ def legs(hyp, ratio=(1, 1)):
 
 
 def euclidean_dist(c1, c2):
-    '''
+    """
     Returns the Euclidean distance between coordinate @c1 and @c2.
     
     >>> euclidean_dist((4, 6), (9, -10))
@@ -100,12 +100,12 @@ def euclidean_dist(c1, c2):
     
     AUTHORS:
     v0.2.0+             --> pydsigner
-    '''
+    """
     return math.hypot(c1[0] - c2[0], c1[1] - c2[1])
 
 
 def sane_hex(v):
-    '''
+    """
     Returns a more usable hex representation of int()'ed @v.
     
     >>> sane_hex(-846)
@@ -113,7 +113,7 @@ def sane_hex(v):
     
     AUTHORS:
     v0.3.3+             --> pydsigner
-    '''
+    """
     i = int(v)
     sign = '-' if i < 0 else ''
     i = abs(i)
@@ -122,7 +122,7 @@ def sane_hex(v):
 
 
 def limit(val, bottom=None, top=None):
-    '''
+    """
     Will return a copy of @val in such a way that:
     If @bottom is not None, the result will be no less than @bottom;
     If @top is not None, the result will be no more than @top.
@@ -141,7 +141,7 @@ def limit(val, bottom=None, top=None):
     
     AUTHORS:
     v0.4.5+             --> pydsigner
-    '''
+    """
     uval = val
     if bottom is not None:
         uval = max(uval, bottom)
@@ -151,7 +151,7 @@ def limit(val, bottom=None, top=None):
 
 
 def pascals_triangle(depth):
-    '''
+    """
     Calculate Pascal's triangle to @depth places. returns a list of lists.
     
     >>> pascals_triangle(5)
@@ -159,7 +159,7 @@ def pascals_triangle(depth):
     
     AUTHORS:
     v0.4.7+             --> pydsigner
-    '''
+    """
     res = []
     for i in range(depth):
         row = [1]
@@ -170,41 +170,41 @@ def pascals_triangle(depth):
 
 
 def to_polar(vec):
-    '''
+    """
     Returns rectangular vector @vec as a polar coordinate represented as a 
     (distance, angle) tuple.
     
     AUTHORS:
     v0.4.7+             --> pydsigner
-    '''
+    """
     return cmath.polar(complex(vec[0], vec[1]))
 
 
 def to_vector(polar):
-    '''
+    """
     Returns polar coordinate tuple @polar as a Vector().
     
     AUTHORS:
     v0.4.7+             --> pydsigner
-    '''
+    """
     i = cmath.rect(*polar)
     return Vector(i.real, i.imag)
 
 
 def rotate_vector(vec, degrees):
-    '''
+    """
     Rotates rectangular vector @vec @degrees.
     NOTE: Use Vector().rotated() instead, which this simply wraps!
     
     AUTHORS:
     v0.4.7+             --> pydsigner
     v1.0.0+             --> pydsigner
-    '''
+    """
     return Vector(vec).rotated(degrees)
 
 
 def factor(n):
-    '''
+    """
     Returns a list of primes (excluding 1) which, when multiplied together, 
     equal @n.
     NOTE: This is not the same as factors() below, which returns every whole
@@ -220,7 +220,7 @@ def factor(n):
     
     AUTHORS:
     v1.0.4+             --> pydsigner
-    '''
+    """
     # NOTE: Could do a primes check, but that would probably be about as 
     # expensive.
     # TODO: is there a shortcut for this?
@@ -241,13 +241,13 @@ def factor(n):
 
 
 def ifactor(n):
-    '''
+    """
     The same as factor() above, but designed as a generator; this function 
     should be better for massive numbers.
     
     AUTHORS:
     v1.0.4+             --> pydsigner
-    '''
+    """
     ceil = n // 2 + 1
     i = 2
     while i < ceil:
@@ -260,7 +260,7 @@ def ifactor(n):
 
 
 def factors(n):
-    '''
+    """
     Returns an set of every factor of @n (including 1 and @n).
     
     >>> factors(36)
@@ -268,12 +268,12 @@ def factors(n):
 
     AUTHORS:
     v0.4.9+             --> pydsigner
-    '''
+    """
     return set(x for x in range(1, n // 2 + 1) if not n % x) | set((n,))
 
 
 def polyroots(q, p, pol):
-    '''
+    """
     Finds all of the roots of polynomial @pol, with the constant of highest 
     degree @q and the constant of x**0 @p. Returns a set of all the roots.
     
@@ -285,7 +285,7 @@ def polyroots(q, p, pol):
     AUTHORS:
     v0.5.1+             --> pydsigner
     v1.1.0+             --> pydsigner
-    '''
+    """
     # First a set of fractions is generated from the factors of @q and @p;
     # These fractions are every possible (x/y equaling -x/-y and 
     # -x/y equaling x/-y) combination of these factors (the factors of @p being 
@@ -309,7 +309,7 @@ def polyroots(q, p, pol):
 
 
 class ExtendedDecimal(decimal.Decimal):
-    '''
+    """
     An Extended version of decimal.Decimal(), with more geometric features,
     similar to those found in the standard math module. These features
     currently are:
@@ -322,23 +322,23 @@ class ExtendedDecimal(decimal.Decimal):
 
     AUTHORS:
     v0.4.0+             --> pydsigner
-    '''
+    """
     def __repr__(self):
-        '''
+        """
         eval(repr(exdec)) <--> exdec
         
         AUTHORS:
         v0.4.1+             --> pydsigner
-        '''
+        """
         return 'ExtendedDecimal(\'%s\')' % str(self)
 
     def pi(self):
-        '''
+        """
         Compute Pi to the current precision.
         
         AUTHORS:
         v0.4.0+             --> pydsigner
-        '''
+        """
         decimal.getcontext().prec += 2  # extra digits for intermediate steps
         three = decimal.Decimal(3)
         lasts, t, s, n, na, d, da = 0, three, 3, 1, 0, 0, 24
@@ -352,12 +352,12 @@ class ExtendedDecimal(decimal.Decimal):
         return ExtendedDecimal(s)       # don't return a Decimal() instance!
 
     def cos(self):
-        '''
+        """
         Return the cosine of self as measured in radians.
         
         AUTHORS:
         v0.4.0+             --> pydsigner
-        '''
+        """
         decimal.getcontext().prec += 2
         i, lasts, s, fact, num, sign = 0, 0, 1, 1, 1, 1
         while s != lasts:
@@ -371,12 +371,12 @@ class ExtendedDecimal(decimal.Decimal):
         return ExtendedDecimal(+s)
 
     def sin(self):
-        '''
+        """
         Return the sine of self as measured in radians.
         
         AUTHORS:
         v0.4.0+             --> pydsigner
-        '''
+        """
         decimal.getcontext().prec += 2
         i, lasts, s, fact, num, sign = 1, 0, self, 1, self, 1
         while s != lasts:
@@ -390,33 +390,33 @@ class ExtendedDecimal(decimal.Decimal):
         return ExtendedDecimal(s)
 
     def tan(self):
-        '''
+        """
         Returns the tangent of self as measured in radians.
         
         AUTHORS:
         v0.4.1+             --> pydsigner
-        '''
+        """
         return ExtendedDecimal(self.sin() / self.cos())
 
     def radians(self):
-        '''
+        """
         returns self (as in degrees) in radians.
         AUTHORS:
         v0.4.0+             --> pydsigner
-        '''
+        """
         return ExtendedDecimal(self * self.pi() / 180)
 
     def degrees(self):
-        '''
+        """
         returns self (as in radians) in degrees.
         AUTHORS:
         v0.4.0+             --> pydsigner
-        '''
+        """
         return ExtendedDecimal(self * 180 / self.pi())
 
 
 class Vector(object):
-    '''
+    """
     2d vector class, supports vector and scalar operators, and also provides
     a bunch of high level functions.
     NOTE: This was taken from Eli Bendersky, who took it from the Pygame Wiki
@@ -428,7 +428,7 @@ class Vector(object):
     AUTHORS:
     v0.4.3+             --> Pygame Wiki/pydsigner
     v1.0.0+             --> Pygame Wiki/pydsigner
-    '''
+    """
     __slots__ = ['x', 'y']
     def __init__(self, x_or_pair=None, y=None):
         if y == None:
@@ -485,9 +485,9 @@ class Vector(object):
 
     # Generic operator handlers
     def _o2(self, other, f):
-        '''
+        """
         Any two-operator operation where the left operand is a Vector
-        '''
+        """
         if isinstance(other, Vector):
             return Vector(f(self.x, other.x),
                          f(self.y, other.y))
@@ -499,9 +499,9 @@ class Vector(object):
                          f(self.y, other))
 
     def _r_o2(self, other, f):
-        '''
+        """
         Any two-operator operation where the right operand is a Vector
-        '''
+        """
         if (hasattr(other, '__getitem__')):
             return Vector(f(other[0], self.x),
                          f(other[1], self.y))
@@ -510,9 +510,9 @@ class Vector(object):
                          f(other, self.y))
 
     def _io(self, other, f):
-        '''
+        """
         inplace operator
-        '''
+        """
         if (hasattr(other, '__getitem__')):
             self.x = f(self.x, other[0])
             self.y = f(self.y, other[1])

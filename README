@@ -31,7 +31,7 @@ they will be described here individually.
   including functions for factoring and limiting numbers and finding euclidean 
   distances, as well as a Decimal() subclass with trigonometric methods and a 
   powerful Vector() class.
-* security.py contains a unified interface to many different standard encodings 
+* encoding.py contains a unified interface to many different standard encodings 
   and hashers, as well as some unique ones.
 * time_widgets.py includes Tkinter mega-widgets for working with time, such as 
   a timer and a chronograph (stop-watch).
@@ -51,7 +51,7 @@ And then:
 
     $ python triplets_app.py
 
-This example is a interesting demo that uses tk_utils, security, and tkinter2x.
+This example is a interesting demo that uses tk_utils, encoding, and tkinter2x.
 
     $ python test_dictionaries.py
 
@@ -77,7 +77,6 @@ If you would like to contribute to PGPU in any way, whether through bug
 reports, bug fixes, better code, or new code altogether, please follow these 
 instructions:
 
-
 1) If you are sending a large amount of code, please make a Git diff and email 
    it to me. Otherwise, go to the website given above and follow the standard 
    procedures. There is a special tab for bugs.
@@ -98,7 +97,7 @@ major interface changes.
 
 Thanks to:
 * Mark Lutz, for inspiring the tk_utils.STextPlus() widget
-* The www.python-forum.com community, for helping me learn the RIGHT way to 
+* The www.python-forum.org community, for helping me learn the RIGHT way to 
   code in Python
 * The PGU packagers, for a package I could base mine off of
 * The FIFE packagers, for a package clearing up some of my questions

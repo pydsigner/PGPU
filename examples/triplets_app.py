@@ -3,7 +3,7 @@
 import pgpu.tk_utils as tk_utils
 from pgpu.tkinter2x.constants import *
 import pgpu.tkinter2x as tk
-from pgpu.security import fetcher, encoder_classes
+from pgpu.encoding import fetcher, encoder_classes
 
 
 def get_encoder():

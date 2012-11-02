@@ -1,8 +1,8 @@
 #! /usr/bin/env python
-'''
+"""
 All `if __name__ == '__main__': do_x()` code has been transformed into this 
 module.
-'''
+"""
 
 import random
 import os
@@ -21,12 +21,7 @@ def rand_folder(d):
                           if os.path.isdir(join(d, f))])
 
 
-tests = {'security': [
-            (sec.multi_pass, repr('ef2eb3e42c6308b6e9adc4f06c3ef254357d1043eee' 
-                             '205d2a1a652058366a14f84d4eb163c8ef952e8f31997798' 
-                             '0133400d3d0692eb0888b4d7c9b76b862f5db'), 
-             'random_user', 'PiTH0N2012', 1000, sec.fetcher('sHa512'))], 
-        'math_utils': [
+tests = {'math_utils': [
             (m_u.convert_to_base, repr('-100'), -100, 10), 
             (m_u.convert_to_base, repr('ba'), 340.4, 30), 
             (m_u.convert_to_base, repr('20300'), 560, 4.3), 
@@ -66,9 +61,9 @@ tests = {'security': [
 
 
 def form(test):
-    '''
+    """
     Builds a representation of a test as it might appear in normal code.
-    '''
+    """
     shell = '%s.%s(%s)'
     com_module = test[0].__module__
     com_name = test[0].__name__
@@ -76,7 +71,7 @@ def form(test):
     return shell % (com_module, com_name, argstring)
 
 
-def main(tests = tests):
+def main(tests=tests):
     for m in sorted(tests):
         Print('-' * 80, '-- Testing %s --' % m, '-' * 80, sep = '\n')
         for t in tests[m]:

@@ -1,14 +1,14 @@
-'''
+"""
 Utility wrappers for places requiring functions, but where defining a new 
 function would be overkill, lambdas would be plain annoying, and/or 
 state-retention is desired.
 
 AUTHORS:
 0.3.9+              --> pydsigner
-'''
+"""
 
 class ValueWrapper(object):
-    '''
+    """
     Makes a value look like a function. Use where a function is required to 
     return a value, but only one value is desired. If a reference is stored, a 
     new value could be set later.
@@ -22,7 +22,8 @@ class ValueWrapper(object):
     
     AUTHORS:
     0.3.9+              --> pydsigner
-    '''
+    """
+    
     def __init__(self, value):
         self.value = value
     def __call__(self):
@@ -30,7 +31,7 @@ class ValueWrapper(object):
 
 
 class BumpWrapper(object):
-    '''
+    """
     Similar to ValueWrapper(), but increments the value every time it is 
     called.
     
@@ -44,7 +45,8 @@ class BumpWrapper(object):
     
     AUTHORS:
     0.3.9+              --> pydsigner
-    '''
+    """
+    
     def __init__(self, value, inc):
         self.original_value = self.value = value
         self.inc = inc
@@ -59,7 +61,7 @@ class BumpWrapper(object):
 
 
 class GiveCount(object):
-    '''
+    """
     This wrapper is designed to go in places such as the "key" keyword 
     argument to max(), min(), and sort(). It counts the occurences of the 
     passed objects and returns that.
@@ -79,7 +81,8 @@ class GiveCount(object):
     
     AUTHORS:
     0.3.10+             --> pydsigner
-    '''
+    """
+    
     def __init__(self, inc=1):
         self.d = {}
         self.inc = inc
@@ -101,23 +104,26 @@ class GiveCount(object):
 
 
 class CallWrapper(object):
-    '''
+    """
     CallWrapper() is a decorator generator for decorators that wrap calls to 
     a function in another function. It has special features such as changing 
-    the docstring to show help for the first function.
+    the docstring to show the docstrings of the functions.
     
     AUTHORS:
     0.4.8+              --> pydsigner
-    '''
+    """
+    
+    sep = '\n ' + '-' * 40 + '\n'
+    
     def __init__(self, funcs=[]):
-        '''
+        """
         Create a CallWrapper() with @funcs for callables. They will be called 
         in order, so that funcs[0] will be called with any passed variables, 
         and then funcs[1] will be called on the result of that and so on.
-        '''
+        """
         self.funcs = funcs
-        self.__doc__ = funcs[0].__doc__
-    
+        self.__doc__ = sep.join(func.__doc__ for func in funcs)
+        
     def __repr__(self):
         return 'CallWrapper([%s])' % ', '.join(repr(r) for r in self.funcs)
     

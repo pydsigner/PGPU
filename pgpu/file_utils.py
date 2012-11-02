@@ -1,9 +1,9 @@
-'''
+"""
 File utility module.
 
 AUTHORS:
 v0.2.0+             --> pydsigner
-'''
+"""
 
 import os
 
@@ -13,7 +13,7 @@ SKIP = 1
 
 
 def parse_conf(lines):
-    '''
+    """
     A simple configuration file parser.
     this parser supports comments and multiple values assigned to one key. One
     possible gotcha is that every item will be returned as a list.
@@ -23,7 +23,7 @@ def parse_conf(lines):
     
     AUTHORS:
     v0.2.0+             --> pydsigner
-    '''
+    """
     dt = {}
     for L in lines:
         if L.startswith('#'):
@@ -34,7 +34,7 @@ def parse_conf(lines):
 
 
 def make_conf(data):
-    '''
+    """
     A simple dict-to-configuration-file converter. designed to work with
     parse_conf(lines) above.
     Example:
@@ -45,18 +45,18 @@ def make_conf(data):
     AUTHORS:
     v0.2.0+             --> pydsigner
     v1.0.0+             --> pydsigner
-    '''
+    """
     return (k + '\t' + ', '.join(data[k]) for k in data)
 
 
 def size_of_dir(directory, error_handling=SKIP):
-    '''
+    """
     Returns the overall size of directory @directory. @error_handling 
     determines whether OSError()'s will cause the function to fail.
     
     AUTHORS:
     v0.2.0+             --> pydsigner
-    '''
+    """
     cwd = os.getcwd()
     d = os.path.abspath(directory)
     os.chdir(d)
@@ -78,10 +78,10 @@ def size_of_dir(directory, error_handling=SKIP):
 
 
 def exists_in_path(f, case=True):
-    '''
+    """
     AUTHORS:
     v0.2.10+            --> pydsigner
-    '''
+    """
     for p in os.environ['PATH'].split(os.path.pathsep):
         for i in os.listdir(p):
             if not case:
