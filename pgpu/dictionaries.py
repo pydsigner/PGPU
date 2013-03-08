@@ -61,14 +61,14 @@ class SortedDict(object):
     
     def __iter__(self):
         """
-        Returns an iterator over the dictionary\'s keys.
+        Returns an iterator over the dictionary's keys.
         """
         return iter(self.keys())
     
     def _content_rep(self):
         return ', '.join(repr(pair) for pair in self.items())
     def __str__(self):
-        return '{}' % self._content_rep()
+        return '{%s}' % self._content_rep()
     def __repr__(self):
         return 'SortedDict(%s)' % self._content_rep()
     
@@ -126,7 +126,7 @@ class SortedDict(object):
         del self.keydict[the_pair[0]]
     
     def keys(self):
-        return sorted(self.keydict.keys(), key = self._sorter)
+        return sorted(self.keydict.keys(), key=self._sorter)
     def values(self):
         return [self.data[self.keydict[k]] for k in self.keys()]
     def items(self):

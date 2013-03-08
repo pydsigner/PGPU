@@ -6,7 +6,7 @@ import time
 
 def recursive_size(obj):
     do = (a for a in dir(obj) 
-            if not (a.startswith('__') or a.startswith('im_')))
+          if not (a.startswith('__') or a.startswith('im_')))
     return obj.__sizeof__() + sum(recursive_size(getattr(obj, a)) for a in do)
 
 
@@ -22,8 +22,9 @@ class Informed(object):
     def update(self):
         Print('Current dictionary state: %s' % self.d)
 
+
 class TimeBreakdown:
-    def __init__(self, method = time.time):
+    def __init__(self, method=time.time):
         self.method = method
         self.times = []
     
