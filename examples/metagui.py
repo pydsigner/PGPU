@@ -17,7 +17,7 @@ class MutagenGUI(tk.Frame):
     ignore = ['coverart', 'coverartmime']
     def __init__(self, master, *args, **kw):
         tk.Frame.__init__(self, master, *args, **kw)
-        
+
         bpack = tk.Frame(self)
         tk.Button(bpack, text = 'Save changes', command = self.dump_changes
                 ).pack(side = RIGHT, expand = True, fill = X)
@@ -26,35 +26,35 @@ class MutagenGUI(tk.Frame):
         self.title_label = tk.Label(bpack)
         self.title_label.pack(side = BOTTOM, expand = True, fill = X)
         bpack.pack(side = BOTTOM, expand = True, fill = X)
-        
+
         ret = self.load_new()
         if not ret:
             self._root().destroy()
-    
+
     def load_new(self):
         fl = askopenfilename(
-          filetypes=[(k, '*.%s' % k) for k in MTYPES] + [('Any', '*.*')], 
-          title='Choose music')
-        
+            filetypes=[(k, '*.%s' % k) for k in MTYPES], title='Choose music'
+        )
+
         if not fl:
             return
         self.title_label['text'] = os.path.split(fl)[1]
-        
+
         self.opened = MTYPES.get(fl.split('.')[-1])(fl)
-        
+
         self.d = UpdatingDict(self.opened)
         for k in self.ignore:
             self.d.pop(k, None)
-        
+
         try:
             self.gdict.destroy()
         except AttributeError:
             pass
-        
+
         self.gdict = GUIDict(self, self.d)
         self.gdict.pack(side=TOP, expand=True, fill=BOTH)
         return True
-    
+
     def dump_changes(self):
         for k in self.d:
             self.opened[k] = self.d[k]
@@ -67,9 +67,9 @@ class MutagenGUI(tk.Frame):
 def main():
     win = tk.Tk()
     win.title('Mutagen GUI')
-    tk.Button(win, text='Quit', command=win.destroy).grid(sticky=NW+SE, row=1, 
+    tk.Button(win, text='Quit', command=win.destroy).grid(sticky=NW+SE, row=1,
                                                           column=0)
-    
+
     MutagenGUI(win).grid(sticky=NW+SE, row=0, column=0)
     win.rowconfigure(0, weight=6)
     win.rowconfigure(1, weight=1)
