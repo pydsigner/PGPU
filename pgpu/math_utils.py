@@ -310,7 +310,7 @@ def polyroots(q, p, pol):
 
 class ExtendedDecimal(decimal.Decimal):
     """
-    An Extended version of decimal.Decimal(), with more geometric features,
+    An Extended version of decimal.Decimal(), with more trigonometric features,
     similar to those found in the standard math module. These features
     currently are:
         pi() (slightly modified from the decimal documentation)
@@ -481,7 +481,7 @@ class Vector(object):
 
     def __nonzero__(self):
         return self.x or self.y
-    __bool__ = __nonzero__      # for those poor 3.x users ;-) -- pydsigner
+    __bool__ = __nonzero__      # for 3.x support
 
     # Generic operator handlers
     def _o2(self, other, f):
