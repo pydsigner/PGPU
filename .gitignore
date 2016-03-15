@@ -1,4 +1,7 @@
 *.pyc
+__pycache__
 pgpu.egg-info
 build
 dist
+deb_dist
+debian
