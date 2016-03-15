@@ -76,7 +76,7 @@ def section(itr, size):
     v0.3.1+             --> pydsigner
     """
     res = []
-    while r:
+    while itr:
         res.append(itr[:size])
         itr = itr[size:]
     return res
