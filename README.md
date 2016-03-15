@@ -1,10 +1,11 @@
 Pydsigner's Generic Python Utilities
 ================================================================================
 
-A collection of handy Python utilities created by Daniel Foerster (a.k.a. 
+A collection of handy Python utilities created by Daniel Foerster (a.k.a.
 pydsigner)
 
-pydsigner@gmail.com
+<pydsigner@gmail.com>
+
 http://github.com/pydsigner/PGPU
 
 
