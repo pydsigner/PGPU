@@ -63,13 +63,14 @@ def size_of_dir(directory, error_handling=SKIP):
     size = os.path.getsize(d)
     for f in os.listdir(d):
         try:
+            if os.path.islink(f):
+                continue
+
             if os.path.isdir(f):
-                if not os.path.islink(f):
-                    size += size_of_dir(f)
+                size += size_of_dir(f)
             else:
-                if not os.path.islink(f):
-                    size += os.path.getsize(f)
-        
+                size += os.path.getsize(f)
+
         except OSError:
             if error_handling == FAIL:
                 raise
@@ -77,14 +78,14 @@ def size_of_dir(directory, error_handling=SKIP):
     return size
 
 
-def exists_in_path(f, case=True):
+def exists_in_path(f, case_sensitive=True):
     """
     AUTHORS:
     v0.2.10+            --> pydsigner
     """
     for p in os.environ['PATH'].split(os.path.pathsep):
         for i in os.listdir(p):
-            if not case:
+            if not case_sensitive:
                 if i.lower() == f.lower():
                     return p
             else:
