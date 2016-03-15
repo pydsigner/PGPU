@@ -14,6 +14,7 @@ try:
     chr = unichr
     str = unicode
 except NameError:
+    # Localize these names so that Python 3 can import them
     input = input
     range = range
     chr = chr
