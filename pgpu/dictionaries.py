@@ -5,30 +5,36 @@ AUTHORS:
 v0.4.5              --> pydsigner
 """
 
+
+__all__ = ['SortedDict', 'UpdatingDict']
+
+
 from .compatibility import range
 
 try:
     from . import tkinter2x as tk
     from .tkinter2x.constants import *
     from .tkinter2x.simpledialog import askstring
+    _have_tk = True
+    __all__.append('GUIDict')
 except ImportError:
     # No tkinter, don't use the GUIDict!
-    pass
+    _have_tk = False
 
 
 class SortedDict(object):
     """
-    A sorted dictionary that is implemented as a merger of a dict() and a 
-    list(). It exposes more of the dict() style via overloading but the list() 
-    style is also accessible via named methods. When in doubt about which 
-    "side" a method accesses, look at the signature; if one of the arguments is 
-    @key, then it would access the dict() side. A method with @index as an 
+    A sorted dictionary that is implemented as a merger of a dict() and a
+    list(). It exposes more of the dict() style via overloading but the list()
+    style is also accessible via named methods. When in doubt about which
+    "side" a method accesses, look at the signature; if one of the arguments is
+    @key, then it would access the dict() side. A method with @index as an
     argument would access the list() side.
-    
+
     AUTHORS:
     v0.4.5+             --> pydsigner
     """
-    
+
     def __init__(self, *args):
         """
         SortedDict([(key_0, value_0), (key_1, value_1)..., (key_n, value_n)])
@@ -52,34 +58,34 @@ class SortedDict(object):
         else:
             for key, value in args:
                 self._add(key, value)
-    
+
     def __delitem__(self, key):
         """
         Delete item @key from the dictionary.
         """
         del self.keydict[key]
-    
+
     def __iter__(self):
         """
         Returns an iterator over the dictionary's keys.
         """
         return iter(self.keys())
-    
+
     def _content_rep(self):
         return ', '.join(repr(pair) for pair in self.items())
     def __str__(self):
         return '{%s}' % self._content_rep()
     def __repr__(self):
         return 'SortedDict(%s)' % self._content_rep()
-    
+
     def get(self, key, *arg):
         """
         get(key, [default])
-        Get the value for @key from the dictionary. If @key is not in the 
+        Get the value for @key from the dictionary. If @key is not in the
         dictionary and @default is supplied, return @default.
         """
         if len(arg) > 1:
-            raise TypeError('Expected at most 2 arguments, got %s' 
+            raise TypeError('Expected at most 2 arguments, got %s'
                              % (len(arg) + 1))
         elif len(arg) == 1:
             ret = self.keydict.get(key, None)
@@ -87,7 +93,7 @@ class SortedDict(object):
         else:
             return self.data[self.keydict.get(key)]
     __getitem__ = get
-    
+
     def set(self, key, value):
         """
         Sets the value for @key to @value.
@@ -98,25 +104,25 @@ class SortedDict(object):
         else:
             self.data[k] = value
     __setitem__ = set
-    
+
     def get_at(self, index):
         """
-        Get the value at @index. Probably quite slow, as the list() side of 
+        Get the value at @index. Probably quite slow, as the list() side of
         the dictionary is not favored.
         """
         return self.data[self.keydict[self.keys()[index]]]
-    
-    
+
+
     def set_at(self, index, value):
         """
-        Set the value at @index to @value. Probably quite slow, as the 
+        Set the value at @index to @value. Probably quite slow, as the
         list() side of the dictionary is not favored.
         """
         self.data[self.keydict[self.keys()[index]]] = value
-    
+
     def delete_at(self, index):
         """
-        Delete the value at index.Probably quite slow, as the list() side 
+        Delete the value at index. Probably quite slow, as the list() side
         of the dictionary is not favored.
         """
         for p in self.keydict.items():
@@ -124,14 +130,14 @@ class SortedDict(object):
                 the_pair = p
                 break
         del self.keydict[the_pair[0]]
-    
+
     def keys(self):
         return sorted(self.keydict.keys(), key=self._sorter)
     def values(self):
         return [self.data[self.keydict[k]] for k in self.keys()]
     def items(self):
         return zip(self.keys(), self.values())
-    
+
     def rebuild(self):
         """
         Remove zombie data from the data store to free up memory.
@@ -144,10 +150,10 @@ class SortedDict(object):
         # Check to see if any changes were made before rebuilding
         if slen != len(self.data):
             self.__init__(vals, self.data)
-    
+
     def _sorter(self, key):
         return self.keydict.get(key)
-    
+
     def _add(self, key, value):
         self.keydict[key] = len(self.keydict)
         self.data.append(value)
@@ -156,120 +162,123 @@ class SortedDict(object):
 class UpdatingDict(dict):
     """
     A dictionary that will notify about changes.
-    
+
     AUTHORS:
     v0.4.5+             --> pydsigner
     """
-    
+
     def __init__(self, *args, **kw):
         dict.__init__(self, *args, **kw)
         self.n = []
-    
+
     def __delitem__(self, key):
         dict.__delitem__(self, key)
-        [obj.update() for obj in self.n]
-    
+        for obj in self.n:
+            obj.update()
+
     def set(self, key, value):
         dict.__setitem__(self, key, value)
-        [obj.update() for obj in self.n]
+        for obj in self.n:
+            obj.update()
     __setitem__ = set
-    
+
     def add_notify(self, obj):
         """
         Add @obj to the notification list.
         """
         if obj not in self.n:
             self.n.append(obj)
-    
+
     def del_notify(self, obj):
         """
-        Remove @obj from the notification list. Will raise AssertionError if 
+        Remove @obj from the notification list. Will raise AssertionError if
         @obj is not in the notification list.
         """
         assert obj in self.n, (
-                'Cannot remove objects from notification list' + 
-                ' that are not in it!')
+            'Cannot remove objects from notification list that are not in it!'
+        )
         del self.n[self.n.index(obj)]
 
 
-class GUIDictItem(tk.Frame):
-    """
-    A basic item for the GUIDict() graphical implementation of a dictionary. 
-    NB: This item converts everything to strings, so be careful where you use 
-    it.
-    
-    AUTHORS:
-    v0.4.5+             --> pydsigner
-    """
-    
-    def __init__(self, master, key, value, *args, **kw):
-        tk.Frame.__init__(self, master, *args, **kw)
-        self.var = tk.StringVar()
-        self.var.set(value[0])
-        self.key = key
-        
-        tk.Label(self, text = self.key).grid(row=0, column=0, sticky=W + E)
-        tk.Entry(self, textvariable = self.var
-                  ).grid(row=0, column=1, sticky=W + E)
-        tk.Button(self, command = self.update, text='Update'
-                  ).grid(row=0, column=2, sticky=W + E)
-        tk.Button(self, command = self.deleter, text='Delete'
-                  ).grid(row=0, column=3, sticky=W + E)
-        
-        self.columnconfigure(0, weight=6)
-        self.columnconfigure(1, weight=12)
-        self.columnconfigure(2, weight=3)
-        self.columnconfigure(3, weight=1)
-    
-    def update(self):
-        self.master.set(self.key, [self.var.get()])
-    def deleter(self):
-        self.master.delete_key(self.key)
+if _have_tk:
+    class GUIDictItem(tk.Frame):
+        """
+        A basic item for the GUIDict() graphical implementation of a dictionary.
+        NB: This item converts everything to strings, so be careful where you use
+        it.
+
+        AUTHORS:
+        v0.4.5+             --> pydsigner
+        """
+
+        def __init__(self, master, key, value, *args, **kw):
+            tk.Frame.__init__(self, master, *args, **kw)
+            self.var = tk.StringVar()
+            self.var.set(value)
+            self.key = key
+
+            tk.Label(self, text = self.key).grid(row=0, column=0, sticky=W + E)
+            tk.Entry(self, textvariable = self.var
+                      ).grid(row=0, column=1, sticky=W + E)
+            tk.Button(self, command = self.update, text='Update'
+                      ).grid(row=0, column=2, sticky=W + E)
+            tk.Button(self, command = self.deleter, text='Delete'
+                      ).grid(row=0, column=3, sticky=W + E)
+
+            self.columnconfigure(0, weight=6)
+            self.columnconfigure(1, weight=12)
+            self.columnconfigure(2, weight=3)
+            self.columnconfigure(3, weight=1)
+
+        def update(self):
+            self.master.set(self.key, self.var.get())
+        def deleter(self):
+            self.master.delete_key(self.key)
 
 
-class GUIDict(tk.Frame):
-    """
-    A basic GUI implementation of a dictionary.
-    
-    AUTHORS:
-    v0.4.5+             --> pydsigner
-    """
-    
-    item = GUIDictItem
-    def __init__(self, master, dictobj=UpdatingDict(), *args, **kw):
-        tk.Frame.__init__(self, master, *args, **kw)
-        bbox = tk.Frame(self)
-        tk.Button(bbox, text='Add key', command=self.adder
-                  ).pack(side=RIGHT, expand=True, fill=X)
-        bbox.pack(side=BOTTOM, expand=True, fill=X)
-        self.dictobj = dictobj
-        self.dictobj.add_notify(self)
-        self.update()
-    
-    def __str__(self):
-        return str(self.dictobj)
-    def __repr__(self):
-        return repr(self.dictobj)
-    
-    def update(self):
-        try:
-            for item in self.reps.values():
-                item.destroy()
-        except:
-            pass
-        
-        self.reps = {}
-        for k in sorted(self.dictobj):
-            self.reps[k] = self.item(self, k, self.dictobj.get(k))
-            self.reps[k].pack(side = TOP, fill = X, expand = True)
-    
-    def set(self, key, value):
-        self.dictobj.set(key, value)
-    
-    def delete_key(self, key):
-        del self.dictobj[key]
-    
-    def adder(self):
-        r = askstring('Add key', 'Enter the key to add:')
-        if r:
-            self.dictobj.set(r, [''])
+    class GUIDict(tk.Frame):
+        """
+        A basic GUI implementation of a dictionary.
+
+        AUTHORS:
+        v0.4.5+             --> pydsigner
+        """
+
+        item = GUIDictItem
+        def __init__(self, master, dictobj=UpdatingDict(), *args, **kw):
+            tk.Frame.__init__(self, master, *args, **kw)
+            bbox = tk.Frame(self)
+            tk.Button(bbox, text='Add key', command=self.adder
+                      ).pack(side=RIGHT, expand=True, fill=X)
+            bbox.pack(side=BOTTOM, expand=True, fill=X)
+            self.dictobj = dictobj
+            self.dictobj.add_notify(self)
+            self.update()
+
+        def __str__(self):
+            return str(self.dictobj)
+        def __repr__(self):
+            return repr(self.dictobj)
+
+        def update(self):
+            try:
+                for item in self.reps.values():
+                    item.destroy()
+            except:
+                pass
+
+            self.reps = {}
+            for k in sorted(self.dictobj):
+                self.reps[k] = self.item(self, k, self.dictobj.get(k))
+                self.reps[k].pack(side=TOP, fill=X, expand=True)
+
+        def set(self, key, value):
+            self.dictobj.set(key, value)
+
+        def delete_key(self, key):
+            del self.dictobj[key]
+
+        def adder(self):
+            r = askstring('Add key', 'Enter the key to add:')
+            if r:
+                self.dictobj.set(r, '')
