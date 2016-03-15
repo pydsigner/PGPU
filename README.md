@@ -23,6 +23,8 @@ they will be described here individually.
   provide a Python3-like feel to some of the major builtin differences.
 * dictionaries.py provides several special dictionary implementations,
   including a SortedDict() and a GUIDict() with a Tkinter interface.
+* encoding.py contains a unified interface to many different standard encodings
+  and hashers, as well as some unique ones.
 * file_utils.py includes functions for working with files and filesystems, such
   a simple configuration file reader/writer, and a recursive folder size
   finder.
@@ -32,8 +34,7 @@ they will be described here individually.
   including functions for factoring and limiting numbers and finding euclidean
   distances, as well as a Decimal() subclass with trigonometric methods and a
   powerful Vector() class.
-* encoding.py contains a unified interface to many different standard encodings
-  and hashers, as well as some unique ones.
+* string_utils.py contains utilities for working with strings.
 * time_widgets.py includes Tkinter mega-widgets for working with time, such as
   a timer and a chronograph (stop-watch).
 * tk_utils.py contains general Tkinter utilities, including several powerful
