@@ -17,10 +17,10 @@ def parse_conf(lines):
     A simple configuration file parser.
     this parser supports comments and multiple values assigned to one key. One
     possible gotcha is that every item will be returned as a list.
-    
+
     >>> parse_conf(["q 1, 2, 3", "d   w", "# doesn't do anything"])
     {"q": ["1", "2", "3"], "d": ["w"]}
-    
+
     AUTHORS:
     v0.2.0+             --> pydsigner
     """
@@ -38,10 +38,10 @@ def make_conf(data):
     A simple dict-to-configuration-file converter. designed to work with
     parse_conf(lines) above.
     Example:
-    
+
     make_conf({"q": ["1", "2", "3"], "d": ["w"]})
     ["q 1, 2, 3", "d   w"]
-    
+
     AUTHORS:
     v0.2.0+             --> pydsigner
     v1.0.0+             --> pydsigner
@@ -51,9 +51,9 @@ def make_conf(data):
 
 def size_of_dir(directory, error_handling=SKIP):
     """
-    Returns the overall size of directory @directory. @error_handling 
+    Returns the overall size of directory @directory. @error_handling
     determines whether OSError()'s will cause the function to fail.
-    
+
     AUTHORS:
     v0.2.0+             --> pydsigner
     """
